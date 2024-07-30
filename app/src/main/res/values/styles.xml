@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Base application theme -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your theme here -->
+        <item name="colorPrimary">@color/header_color</item>
+        <item name="colorPrimaryVariant">@color/hover_state_color</item>
+        <item name="colorOnPrimary">@color/background_color</item>
+        <item name="colorSecondary">@color/button_color</item>
+        <item name="colorSecondaryVariant">@color/hover_state_color</item>
+        <item name="colorOnSecondary">@color/background_color</item>
+        <item name="android:windowBackground">@color/background_color</item>
+    </style>
+
+    <!-- Button style -->
+    <style name="AppButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:backgroundTint">@color/button_color</item>
+        <item name="android:textColor">@color/background_color</item>
+    </style>
+
+    <!-- Header text style -->
+    <style name="HeaderText" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="android:textColor">@color/header_color</item>
+    </style>
+
+    <!-- Main text style -->
+    <style name="MainText" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">@color/main_text_color</item>
+    </style>
+
+    <!-- Secondary text style -->
+    <style name="SecondaryText" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:textColor">@color/secondary_text_color</item>
+    </style>
+
+</resources>
