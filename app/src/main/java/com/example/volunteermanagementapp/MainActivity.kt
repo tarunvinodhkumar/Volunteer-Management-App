@@ -27,6 +27,6 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, Login::class.java)
             startActivity(intent)
             finish()
-        }, 3000) // 3000 milliseconds = 3 seconds
+        }, 300) // 3000 milliseconds = 3 seconds
     }
 }

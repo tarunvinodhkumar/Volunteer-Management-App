@@ -4,3 +4,12 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android) apply false
     alias(libs.plugins.google.gms.google.services) apply false
 }
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        // Add this line
+        classpath("com.google.gms:google-services:4.3.14")
+    }}

@@ -24,6 +24,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".Login"/>
+        <activity
+            android:name=".WelcomeActivity"
+            android:exported="true">
+        </activity>
     </application>
 
 </manifest>
