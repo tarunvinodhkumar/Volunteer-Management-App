@@ -30,13 +30,13 @@ class WelcomeActivity : AppCompatActivity() {
             // Start Volunteer Activity
             startActivity(Intent(this, eventlist::class.java))
         }
-//
-//        // Event Manager button logic
-//        val eventManagerButton = findViewById<Button>(R.id.event_manager_button)
-//        eventManagerButton.setOnClickListener {
-//            // Start Event Manager Activity
-//            startActivity(Intent(this, EventManagerActivity::class.java))
-//        }
+
+        // Event Manager button logic
+        val eventManagerButton = findViewById<Button>(R.id.event_manager_button)
+        eventManagerButton.setOnClickListener {
+            // Start Event Manager Activity
+            startActivity(Intent(this, volunteerList::class.java))
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
