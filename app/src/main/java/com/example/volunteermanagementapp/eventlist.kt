@@ -1,11 +1,15 @@
 package com.example.volunteermanagementapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
@@ -19,6 +23,8 @@ class eventlist: AppCompatActivity() {
     private lateinit var eventArrayList: ArrayList<Event>
     private lateinit var EventAdapter: EventAdapter
     private lateinit var db: FirebaseFirestore
+    private lateinit var auth: FirebaseAuth
+
 
 
 
@@ -41,6 +47,22 @@ class eventlist: AppCompatActivity() {
 
 
 
+    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_actionbar, menu)
+        return true
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_sign_out -> {
+                auth.signOut()
+                // Redirect back to the Login activity
+                startActivity(Intent(this, Login::class.java))
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun EventChangeListener() {

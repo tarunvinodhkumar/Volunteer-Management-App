@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -23,12 +24,12 @@ class WelcomeActivity : AppCompatActivity() {
         val user = auth.currentUser
         welcomeMessage.text = "Welcome, ${user?.displayName ?: "User"}!"
 
-//        // Volunteer button logic
-//        val volunteerButton = findViewById<Button>(R.id.volunteer_button)
-//        volunteerButton.setOnClickListener {
-//            // Start Volunteer Activity
-//            startActivity(Intent(this, VolunteerActivity::class.java))
-//        }
+        // Volunteer button logic
+        val volunteerButton = findViewById<Button>(R.id.volunteer_button)
+        volunteerButton.setOnClickListener {
+            // Start Volunteer Activity
+            startActivity(Intent(this, eventlist::class.java))
+        }
 //
 //        // Event Manager button logic
 //        val eventManagerButton = findViewById<Button>(R.id.event_manager_button)

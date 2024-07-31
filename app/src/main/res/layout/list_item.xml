@@ -43,6 +43,34 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time: "
+                android:textColor="@color/hover_state_color"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+
+                android:id="@+id/eventTime"
+                android:layout_width="257dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="August "
+                android:textColor="@color/hover_state_color"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -54,7 +82,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Event Name: "
-                android:textColor="@color/main_text_color"
+                android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -65,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="Orientation "
-                android:textColor="@color/main_text_color"
+                android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -83,7 +111,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Location: "
-                android:textColor="@color/main_text_color"
+                android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="normal" />
 
@@ -94,7 +122,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="Lakehead "
-                android:textColor="@color/main_text_color"
+                android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="normal" />
 
@@ -111,7 +139,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Event Organizer: "
-                android:textColor="@color/main_text_color"
+                android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="normal" />
 
@@ -122,7 +150,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="Adam "
-                android:textColor="@color/main_text_color"
+                android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="normal" />
 

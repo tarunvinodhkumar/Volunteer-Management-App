@@ -10,4 +10,5 @@
     <color name="border_color">#E2E8F0</color>
     <color name="blue">#459DE4</color>
     <color name="red">#FF0000</color>
+    <color name="black">#333333</color>
 </resources>
