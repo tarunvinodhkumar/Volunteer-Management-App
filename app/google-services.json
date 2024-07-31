@@ -1,0 +1,64 @@
+{
+  "project_info": {
+    "project_number": "680257284448",
+    "firebase_url": "https://volunteer-management-sys-3f694-default-rtdb.firebaseio.com",
+    "project_id": "volunteer-management-sys-3f694",
+    "storage_bucket": "volunteer-management-sys-3f694.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:680257284448:android:13d32afe522de0af361605",
+        "android_client_info": {
+          "package_name": "com.example.volunteermanagementapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "680257284448-aqbb72q3d3e7p6m0jr8qi84kg9fejtdi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.volunteermanagementapp",
+            "certificate_hash": "391f93df08a8e8299176de2651c3fa5e20a12646"
+          }
+        },
+        {
+          "client_id": "680257284448-kn3manmaqg0fqbs70poji0g29u6emnt5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.volunteermanagementapp",
+            "certificate_hash": "d5bca89639edef6e9f7f1564f0a2c1a08907e02c"
+          }
+        },
+        {
+          "client_id": "680257284448-uq9c28fnl438ispt4aa7c6v7djoalnb9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.volunteermanagementapp",
+            "certificate_hash": "e2378bec4d6cb4f4637ab6c6539a250c2943b5e7"
+          }
+        },
+        {
+          "client_id": "680257284448-1f2k0pmqb79ba4tscp5354v62uq0jc13.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWlUKSO4i-MZYgFhAscqZTUCi53_3I0z4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "680257284448-1f2k0pmqb79ba4tscp5354v62uq0jc13.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
