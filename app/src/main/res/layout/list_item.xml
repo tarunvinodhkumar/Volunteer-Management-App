@@ -21,13 +21,6 @@
             android:layout_gravity="center_vertical"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Date: "
-                android:textColor="@color/hover_state_color"
-                android:textSize="20sp"
-                android:textStyle="bold" />
 
             <TextView
 
@@ -53,10 +46,36 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Event Name: "
-                android:textColor="@color/main_text_color"
+                android:layout_marginStart="10dp"
+                android:id="@+id/eventStart"
+                android:text="3:00 PM - "
+                android:textColor="@color/hover_state_color"
                 android:textSize="20sp"
                 android:textStyle="bold" />
+
+            <TextView
+
+                android:id="@+id/eventEnd"
+                android:layout_width="257dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="8:00 PM "
+                android:textColor="@color/hover_state_color"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
+
+
 
             <TextView
 
@@ -79,13 +98,7 @@
             android:layout_gravity="center_vertical"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Location: "
-                android:textColor="@color/main_text_color"
-                android:textSize="14sp"
-                android:textStyle="normal" />
+
 
             <TextView
 
@@ -107,13 +120,7 @@
             android:layout_gravity="center_vertical"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Event Organizer: "
-                android:textColor="@color/main_text_color"
-                android:textSize="14sp"
-                android:textStyle="normal" />
+
 
             <TextView
 

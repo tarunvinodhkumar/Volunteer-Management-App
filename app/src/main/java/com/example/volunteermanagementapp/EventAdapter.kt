@@ -21,7 +21,9 @@ class EventAdapter(private val eventList: ArrayList<Event>):
     override fun onBindViewHolder(holder: EventAdapter.MyViewHolder, position: Int) {
 
         val event : Event = eventList[position]
-        holder.event_start.text = event.event_start.toString()
+        holder.event_date.text = event.event_date
+        holder.event_start.text = event.event_start
+        holder.event_end.text = event.event_end
         holder.event_name.text = event.event_name
         holder.event_location.text = event.event_location
         holder.event_organizer.text = event.event_organizer
@@ -36,7 +38,9 @@ class EventAdapter(private val eventList: ArrayList<Event>):
     public class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
 
 
-        val event_start : TextView = itemView.findViewById(R.id.eventDate)
+        val event_date : TextView = itemView.findViewById(R.id.eventDate)
+        val event_start : TextView = itemView.findViewById(R.id.eventStart)
+        val event_end : TextView = itemView.findViewById(R.id.eventEnd)
         val event_name : TextView = itemView.findViewById(R.id.eventName)
         val event_location : TextView = itemView.findViewById(R.id.eventLocation)
         val event_organizer : TextView = itemView.findViewById(R.id.eventOrganizer)
