@@ -54,6 +54,7 @@ dependencies {
 
 }
 dependencies {
+    implementation(libs.firebase.firestore.ktx)
     implementation(libs.firebase.firestore)// Firebase BOM
     implementation(platform("com.google.firebase:firebase-bom:32.0.0"))
 

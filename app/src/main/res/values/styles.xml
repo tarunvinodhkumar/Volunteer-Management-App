@@ -2,8 +2,19 @@
 <resources>
 
     <!-- Base application theme -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Customize your theme here -->
+<!--    <style name="AppTheme" parent="Theme.MaterialComponents.Light">-->
+
+<!--        &lt;!&ndash; Customize your theme here &ndash;&gt;-->
+<!--        <item name="colorPrimary">@color/header_color</item>-->
+<!--        <item name="colorPrimaryVariant">@color/hover_state_color</item>-->
+<!--        <item name="colorOnPrimary">@color/background_color</item>-->
+<!--        <item name="colorSecondary">@color/button_color</item>-->
+<!--        <item name="colorSecondaryVariant">@color/hover_state_color</item>-->
+<!--        <item name="colorOnSecondary">@color/background_color</item>-->
+<!--        <item name="android:windowBackground">@color/background_color</item>-->
+<!--    </style>-->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light">
+        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/header_color</item>
         <item name="colorPrimaryVariant">@color/hover_state_color</item>
         <item name="colorOnPrimary">@color/background_color</item>
@@ -11,6 +22,19 @@
         <item name="colorSecondaryVariant">@color/hover_state_color</item>
         <item name="colorOnSecondary">@color/background_color</item>
         <item name="android:windowBackground">@color/background_color</item>
+        <item name="actionBarStyle">@style/CustomActionBar</item>
+    </style>
+
+    <!-- Custom action bar style -->
+    <style name="CustomActionBar" parent="Widget.AppCompat.ActionBar">
+        <item name="titleTextStyle">@style/CustomActionBarTitleText</item>
+    </style>
+
+    <!-- Custom action bar title text style -->
+    <style name="CustomActionBarTitleText" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/main_text_color</item>
+    </style>
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
     </style>
 
     <!-- Button style -->
@@ -21,7 +45,7 @@
 
     <!-- Header text style -->
     <style name="HeaderText" parent="TextAppearance.MaterialComponents.Headline6">
-        <item name="android:textColor">@color/header_color</item>
+        <item name="android:textColor">@color/main_text_color</item>
     </style>
 
     <!-- Main text style -->
@@ -33,5 +57,6 @@
     <style name="SecondaryText" parent="TextAppearance.MaterialComponents.Body2">
         <item name="android:textColor">@color/secondary_text_color</item>
     </style>
+
 
 </resources>

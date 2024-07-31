@@ -7,10 +7,10 @@
 
     <ImageView
         android:id="@+id/logoImage"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:src="@drawable/logo"
-    android:layout_centerInParent="true" />
+        android:layout_width="311dp"
+        android:layout_height="308dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/logo" />
 
     <ProgressBar
         android:id="@+id/loadingBar"
