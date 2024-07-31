@@ -15,7 +15,7 @@
         android:theme="@style/Theme.VolunteerManagementApp"
         tools:targetApi="31" >
         <activity
-            android:name=".MainActivity"
+            android:name=".MainActivity" android:theme="@style/AppTheme.NoActionBar"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,9 +23,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Login"/>
+        <activity android:name=".Login" android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".WelcomeActivity"
+            android:name=".WelcomeActivity" android:theme="@style/AppTheme"
             android:exported="true">
         </activity>
     </application>
