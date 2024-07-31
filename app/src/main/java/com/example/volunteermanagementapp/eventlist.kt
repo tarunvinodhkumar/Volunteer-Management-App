@@ -6,6 +6,7 @@ import android.os.PersistableBundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -65,6 +66,23 @@ class eventlist: AppCompatActivity() {
         }
     }
 
+//    // Find the buttons by their IDs
+//    val eventsToggle: Button = findViewById(R.id.events_toggle)
+//    val volunteersToggle: Button = findViewById(R.id.volunteers_toggle)
+
+//    // Set up the toggle buttons
+//    events_toggle.setOnClickListener {
+//        // Navigate to EventsActivity
+//        val intent = Intent(this, EventsActivity::class.java)
+//        startActivity(intent)
+//    }
+//
+//    volunteers_toggle.setOnClickListener {
+//        // Navigate to VolunteersActivity
+//        val intent = Intent(this, VolunteersActivity::class.java)
+//        startActivity(intent)
+//    }
+//
     private fun EventChangeListener() {
 
         db = FirebaseFirestore.getInstance()
