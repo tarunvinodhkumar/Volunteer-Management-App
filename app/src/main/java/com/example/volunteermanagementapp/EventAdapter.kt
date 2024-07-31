@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 class EventAdapter(private val eventList: ArrayList<Event>):
     RecyclerView.Adapter<EventAdapter.MyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventAdapter.MyViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.list_item,
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.list_item_event,
             parent,false)
 
         return MyViewHolder(itemView)

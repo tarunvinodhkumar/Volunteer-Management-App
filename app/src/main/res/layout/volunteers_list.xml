@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".eventlist">
+    tools:context=".volunteerList">
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -20,10 +20,10 @@
         app:layout_constraintVertical_bias="0.62" />
 
     <Button
-        android:id="@+id/regvolunteer_button"
+        android:id="@+id/createevent_button"
         android:layout_width="298dp"
         android:layout_height="55dp"
-        android:text="Register  as a Volunteer"
+        android:text="Create an Event"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
