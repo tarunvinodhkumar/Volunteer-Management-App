@@ -14,6 +14,7 @@
 <!--        <item name="android:windowBackground">@color/background_color</item>-->
 <!--    </style>-->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light">
+
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/header_color</item>
         <item name="colorPrimaryVariant">@color/hover_state_color</item>
