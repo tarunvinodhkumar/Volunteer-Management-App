@@ -1,5 +1,7 @@
 package com.example.volunteermanagementapp
 
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +30,21 @@ class VolunteerAdapter(
         holder.volunteer_name.text = volunteer.volunteer_name
         holder.volunteer_phone.text = volunteer.volunteer_phone
 
+        holder.volunteer_email.setOnClickListener {
+            val intent = Intent(Intent.ACTION_SENDTO).apply {
+                data = Uri.parse("mailto:${volunteer.volunteer_email}")
+            }
+            holder.itemView.context.startActivity(intent)
+        }
+
+        // Make phone number clickable
+        holder.volunteer_phone.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL).apply {
+                data = Uri.parse("tel:${volunteer.volunteer_phone}")
+            }
+            holder.itemView.context.startActivity(intent)
+        }
+
         holder.buttonMenu.setOnClickListener {
             val popup = PopupMenu(holder.itemView.context, holder.buttonMenu)
             popup.menuInflater.inflate(R.menu.cardview_menu, popup.menu)
@@ -48,7 +65,11 @@ class VolunteerAdapter(
         }
     }
 
-    override fun getItemCount(): Int {
+
+
+
+
+override fun getItemCount(): Int {
         return volunteerList.size
     }
 

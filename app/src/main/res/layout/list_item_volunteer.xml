@@ -109,7 +109,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="aaa@gmail.com "
-                android:textColor="@color/black"
+                android:textColor="@android:color/holo_blue_dark"
                 android:textSize="14sp"
                 android:textStyle="normal" />
 
@@ -131,7 +131,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="+8071111111 "
-                android:textColor="@color/black"
+                android:textColor="@android:color/holo_blue_dark"
                 android:textSize="14sp"
                 android:textStyle="normal" />
 
