@@ -40,6 +40,8 @@ class volunteerList : AppCompatActivity() {
 
         volunteerArrayList = arrayListOf()
         volunteerAdapter = VolunteerAdapter(volunteerArrayList, ::onEditVolunteer, ::onDeleteVolunteer)
+        volunteerAdapter = VolunteerAdapter(volunteerArrayList, ::onEditVolunteer, ::onDeleteVolunteer)
+
         recyclerView.adapter = volunteerAdapter
 
         // Set up the toggle button group
@@ -113,7 +115,9 @@ class volunteerList : AppCompatActivity() {
 
                 for (dc: DocumentChange in value?.documentChanges!!) {
                     if (dc.type == DocumentChange.Type.ADDED) {
-                        volunteerArrayList.add(dc.document.toObject(Volunteer::class.java))
+                        val volunteer = dc.document.toObject(Volunteer::class.java)
+                        volunteer.id = dc.document.id
+                        volunteerArrayList.add(volunteer)
                     }
                 }
 
@@ -121,6 +125,7 @@ class volunteerList : AppCompatActivity() {
             }
         })
     }
+
 
     private fun sortByName() {
         volunteerArrayList.sortBy { it.volunteer_name }
@@ -137,6 +142,16 @@ class volunteerList : AppCompatActivity() {
     }
 
     private fun onDeleteVolunteer(volunteer: Volunteer) {
-        // Handle delete action
+        db.collection("volunteer_details").document(volunteer.id)
+            .delete()
+            .addOnSuccessListener {
+                // Remove from the local list and update the adapter
+                volunteerArrayList.remove(volunteer)
+                volunteerAdapter.notifyDataSetChanged()
+            }
+            .addOnFailureListener { e ->
+                Log.w("Delete Failure", "Error deleting document", e)
+            }
     }
+
 }

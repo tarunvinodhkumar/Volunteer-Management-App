@@ -4,6 +4,8 @@ import com.google.firebase.Timestamp
 
 
 data class Event(
+
+    var id: String = "",
     var event_description: String ?= null,
     var event_end: String ?= null,
     var event_location: String ?= null,

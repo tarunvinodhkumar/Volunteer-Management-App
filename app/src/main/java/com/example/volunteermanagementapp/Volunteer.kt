@@ -1,6 +1,8 @@
 package com.example.volunteermanagementapp
 
 data class Volunteer(
+
+    var id: String = "",
     var volunteer_available_date: String ?= null,
     var volunteer_available_from: String ?= null,
     var volunteer_available_till: String ?= null,
