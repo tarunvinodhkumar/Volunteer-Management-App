@@ -5,6 +5,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,6 +27,7 @@ class volunteerList : AppCompatActivity() {
     private lateinit var volunteerAdapter: VolunteerAdapter
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
+    private lateinit var spinnerSort: Spinner
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +58,26 @@ class volunteerList : AppCompatActivity() {
                         startActivity(intent)
                     }
                 }
+            }
+        }
+
+        // Set up the Spinner for sorting
+        spinnerSort = findViewById(R.id.spinner_sort)
+        val sortOptions = resources.getStringArray(R.array.sort_options)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, sortOptions)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerSort.adapter = adapter
+
+        spinnerSort.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                when (position) {
+                    0 -> sortByName()
+                    1 -> sortByDate()
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Do nothing
             }
         }
 
@@ -95,6 +120,16 @@ class volunteerList : AppCompatActivity() {
                 volunteerAdapter.notifyDataSetChanged()
             }
         })
+    }
+
+    private fun sortByName() {
+        volunteerArrayList.sortBy { it.volunteer_name }
+        volunteerAdapter.notifyDataSetChanged()
+    }
+
+    private fun sortByDate() {
+        volunteerArrayList.sortBy { it.volunteer_available_date }
+        volunteerAdapter.notifyDataSetChanged()
     }
 
     private fun onEditVolunteer(volunteer: Volunteer) {
