@@ -138,5 +138,6 @@ class volunteerList : AppCompatActivity() {
 
     private fun onDeleteVolunteer(volunteer: Volunteer) {
         // Handle delete action
+
     }
 }
