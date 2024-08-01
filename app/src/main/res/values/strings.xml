@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Volunteer Connect</string>
     <string name="default_web_client_id">1:680257284448:android:13d32afe522de0af361605</string>
+    <string-array name="sort_options">
+        <item>Sort by Name</item>
+        <item>Sort by Date</item>
+    </string-array>
 </resources>
