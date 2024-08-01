@@ -28,8 +28,11 @@
             android:name=".WelcomeActivity" android:theme="@style/AppTheme"
             android:exported="true">
         </activity>
-        <activity android:name=".eventlist" android:theme="@style/AppTheme" />
-        <activity android:name=".volunteerList" android:theme="@style/AppTheme" />
+        <activity android:name=".eventlist" android:theme="@style/AppTheme"
+            android:exported="true"/>
+        <activity android:name=".volunteerList" android:theme="@style/AppTheme"
+            android:exported="true"/>
+
 
     </application>
 
