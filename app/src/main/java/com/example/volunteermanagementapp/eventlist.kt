@@ -34,7 +34,7 @@ class eventlist : AppCompatActivity() {
         recyclerView.setHasFixedSize(true)
 
         eventArrayList = arrayListOf()
-        eventAdapter = EventAdapter(eventArrayList)
+        eventAdapter = EventAdapter(eventArrayList, ::onEditEvent, ::onDeleteEvent)
         recyclerView.adapter = eventAdapter
 
         // Set up the toggle button group
@@ -95,5 +95,13 @@ class eventlist : AppCompatActivity() {
                 eventAdapter.notifyDataSetChanged()
             }
         })
+    }
+
+    private fun onEditEvent(event: Event) {
+        // Handle edit action
+    }
+
+    private fun onDeleteEvent(event: Event) {
+        // Handle delete action
     }
 }

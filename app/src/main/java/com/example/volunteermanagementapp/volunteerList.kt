@@ -34,7 +34,7 @@ class volunteerList : AppCompatActivity() {
         recyclerView.setHasFixedSize(true)
 
         volunteerArrayList = arrayListOf()
-        volunteerAdapter = VolunteerAdapter(volunteerArrayList)
+        volunteerAdapter = VolunteerAdapter(volunteerArrayList, ::onEditVolunteer, ::onDeleteVolunteer)
         recyclerView.adapter = volunteerAdapter
 
         // Set up the toggle button group
@@ -95,5 +95,13 @@ class volunteerList : AppCompatActivity() {
                 volunteerAdapter.notifyDataSetChanged()
             }
         })
+    }
+
+    private fun onEditVolunteer(volunteer: Volunteer) {
+        // Handle edit action
+    }
+
+    private fun onDeleteVolunteer(volunteer: Volunteer) {
+        // Handle delete action
     }
 }

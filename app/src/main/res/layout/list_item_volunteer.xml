@@ -141,6 +141,17 @@
 
     </LinearLayout>
 
+    <ImageButton
+        android:id="@+id/button_menu"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="300dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Menu"
+        android:src="@drawable/ic_baseline_more_vert_24" />
+
 
 
 
