@@ -113,7 +113,9 @@ class eventlist : AppCompatActivity() {
 
                 for (dc: DocumentChange in value?.documentChanges!!) {
                     if (dc.type == DocumentChange.Type.ADDED) {
-                        eventArrayList.add(dc.document.toObject(Event::class.java))
+                        val event = dc.document.toObject(Event::class.java)
+                        event.id = dc.document.id
+                        eventArrayList.add(event)
                     }
                 }
 
@@ -137,6 +139,15 @@ class eventlist : AppCompatActivity() {
     }
 
     private fun onDeleteEvent(event: Event) {
-        // Handle delete action
+        db.collection("event_details").document(event.id)
+            .delete()
+            .addOnSuccessListener {
+                // Remove from the local list and update the adapter
+                eventArrayList.remove(event)
+                eventAdapter.notifyDataSetChanged()
+            }
+            .addOnFailureListener { e ->
+                Log.w("Delete Failure", "Error deleting document", e)
+            }
     }
 }

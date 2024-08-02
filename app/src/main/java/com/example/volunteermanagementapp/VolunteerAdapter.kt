@@ -1,5 +1,9 @@
 package com.example.volunteermanagementapp
 
+import android.app.AlertDialog
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +32,21 @@ class VolunteerAdapter(
         holder.volunteer_name.text = volunteer.volunteer_name
         holder.volunteer_phone.text = volunteer.volunteer_phone
 
+        holder.volunteer_email.setOnClickListener {
+            val intent = Intent(Intent.ACTION_SENDTO).apply {
+                data = Uri.parse("mailto:${volunteer.volunteer_email}")
+            }
+            holder.itemView.context.startActivity(intent)
+        }
+
+        // Make phone number clickable
+        holder.volunteer_phone.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL).apply {
+                data = Uri.parse("tel:${volunteer.volunteer_phone}")
+            }
+            holder.itemView.context.startActivity(intent)
+        }
+
         holder.buttonMenu.setOnClickListener {
             val popup = PopupMenu(holder.itemView.context, holder.buttonMenu)
             popup.menuInflater.inflate(R.menu.cardview_menu, popup.menu)
@@ -38,7 +57,7 @@ class VolunteerAdapter(
                         true
                     }
                     R.id.action_delete -> {
-                        onDelete(volunteer)
+                        showDeleteConfirmationDialog(holder.itemView.context, volunteer)
                         true
                     }
                     else -> false
@@ -60,5 +79,21 @@ class VolunteerAdapter(
         val volunteer_name: TextView = itemView.findViewById(R.id.volunteerName)
         val volunteer_phone: TextView = itemView.findViewById(R.id.volunteerNumber)
         val buttonMenu: ImageButton = itemView.findViewById(R.id.button_menu)
+    }
+
+    private fun showDeleteConfirmationDialog(context: Context, volunteer: Volunteer) {
+        AlertDialog.Builder(context).apply {
+            setTitle("Delete Confirmation")
+            setMessage("Are you sure you want to delete this from the list?")
+            setPositiveButton("Yes") { dialog, _ ->
+                onDelete(volunteer)
+                dialog.dismiss()
+            }
+            setNegativeButton("No") { dialog, _ ->
+                dialog.dismiss()
+            }
+            create()
+            show()
+        }
     }
 }

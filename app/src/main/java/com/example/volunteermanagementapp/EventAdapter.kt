@@ -1,5 +1,6 @@
 package com.example.volunteermanagementapp
 
+import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,7 +39,18 @@ class EventAdapter(
                         true
                     }
                     R.id.action_delete -> {
-                        onDelete(event)
+                        // Show confirmation dialog before deleting
+                        val builder = AlertDialog.Builder(holder.itemView.context)
+                        builder.setMessage("Are you sure you want to delete this event?")
+                            .setCancelable(false)
+                            .setPositiveButton("Yes") { dialog, id ->
+                                onDelete(event)
+                            }
+                            .setNegativeButton("No") { dialog, id ->
+                                dialog.dismiss()
+                            }
+                        val alert = builder.create()
+                        alert.show()
                         true
                     }
                     else -> false

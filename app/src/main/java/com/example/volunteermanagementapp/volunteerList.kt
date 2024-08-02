@@ -40,6 +40,7 @@ class volunteerList : AppCompatActivity() {
 
         volunteerArrayList = arrayListOf()
         volunteerAdapter = VolunteerAdapter(volunteerArrayList, ::onEditVolunteer, ::onDeleteVolunteer)
+
         recyclerView.adapter = volunteerAdapter
 
         // Set up the toggle button group
@@ -138,6 +139,5 @@ class volunteerList : AppCompatActivity() {
 
     private fun onDeleteVolunteer(volunteer: Volunteer) {
         // Handle delete action
-
     }
 }
