@@ -40,7 +40,6 @@ class volunteerList : AppCompatActivity() {
 
         volunteerArrayList = arrayListOf()
         volunteerAdapter = VolunteerAdapter(volunteerArrayList, ::onEditVolunteer, ::onDeleteVolunteer)
-        volunteerAdapter = VolunteerAdapter(volunteerArrayList, ::onEditVolunteer, ::onDeleteVolunteer)
 
         recyclerView.adapter = volunteerAdapter
 
@@ -126,7 +125,6 @@ class volunteerList : AppCompatActivity() {
         })
     }
 
-
     private fun sortByName() {
         volunteerArrayList.sortBy { it.volunteer_name }
         volunteerAdapter.notifyDataSetChanged()
@@ -153,5 +151,4 @@ class volunteerList : AppCompatActivity() {
                 Log.w("Delete Failure", "Error deleting document", e)
             }
     }
-
 }

@@ -124,8 +124,6 @@ class eventlist : AppCompatActivity() {
         })
     }
 
-
-
     private fun sortByName() {
         eventArrayList.sortBy { it.event_name }
         eventAdapter.notifyDataSetChanged()
@@ -152,8 +150,4 @@ class eventlist : AppCompatActivity() {
                 Log.w("Delete Failure", "Error deleting document", e)
             }
     }
-
-
-    }
-
-
+}
