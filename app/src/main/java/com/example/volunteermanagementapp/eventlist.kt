@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -82,6 +83,13 @@ class eventlist : AppCompatActivity() {
         }
 
         eventChangeListener()
+
+        val regvolunteer_button = findViewById<Button>(R.id.regvolunteer_button)
+        regvolunteer_button.setOnClickListener {
+            // Start Create Register Activity
+            startActivity(Intent(this, RegisterVolunteer::class.java))
+        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
