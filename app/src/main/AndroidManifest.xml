@@ -32,6 +32,8 @@
             android:exported="true"/>
         <activity android:name=".volunteerList" android:theme="@style/AppTheme"
             android:exported="true"/>
+        <activity android:name=".CreateEvent" android:theme="@style/AppTheme"
+            android:exported="true"/>
 
 
     </application>

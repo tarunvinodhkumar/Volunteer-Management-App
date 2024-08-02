@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -40,7 +41,6 @@ class volunteerList : AppCompatActivity() {
 
         volunteerArrayList = arrayListOf()
         volunteerAdapter = VolunteerAdapter(volunteerArrayList, ::onEditVolunteer, ::onDeleteVolunteer)
-
         recyclerView.adapter = volunteerAdapter
 
         // Set up the toggle button group
@@ -83,6 +83,13 @@ class volunteerList : AppCompatActivity() {
         }
 
         eventChangeListener()
+
+        // Set up the Create Event button
+        val createEventButton = findViewById<Button>(R.id.createevent_button)
+        createEventButton.setOnClickListener {
+            // Start Create Event Activity
+            startActivity(Intent(this, CreateEvent::class.java))
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
