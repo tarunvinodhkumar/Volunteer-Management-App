@@ -1,8 +1,5 @@
 package com.example.volunteermanagementapp
 
-import com.google.firebase.Timestamp
-
-
 data class Event(
 
     var id: String = "",
@@ -13,6 +10,6 @@ data class Event(
     var event_organizer: String ?= null,
     var event_start: String ?= null,
     var event_date: String ?= null
-
 )
+
 

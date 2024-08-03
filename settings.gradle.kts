@@ -10,7 +10,13 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
+
+    plugins {
+        id("com.google.gms.google-services") version "4.3.15"
+        id("org.jetbrains.kotlin.plugin.parcelize") version "1.9.0"
+    }
 }
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -21,4 +27,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "Volunteer Management App"
 include(":app")
- 

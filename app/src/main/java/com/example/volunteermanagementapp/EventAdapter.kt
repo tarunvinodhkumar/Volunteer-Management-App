@@ -1,6 +1,7 @@
 package com.example.volunteermanagementapp
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,6 +58,12 @@ class EventAdapter(
                 }
             }
             popup.show()
+        }
+        holder.event_name.setOnClickListener {
+            val context = holder.itemView.context
+            val intent = Intent(context, EventDetailsActivity::class.java)
+            intent.putExtra("event", event)
+            context.startActivity(intent)
         }
     }
 

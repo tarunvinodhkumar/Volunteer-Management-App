@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.google.gms.google.services)
+    alias(libs.plugins.kotlin.parcelize) // Parcelize plugin
 }
 
 android {
@@ -28,8 +29,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
         jvmTarget = "1.8"
@@ -37,38 +38,34 @@ android {
 }
 
 dependencies {
-
+    // Core Libraries
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+
+
+    // Firebase BOM
+    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
+
+    // Firebase Dependencies
     implementation(libs.firebase.auth)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    implementation (platform("com.google.firebase:firebase-bom:33.1.2"))
-    implementation (libs.firebase.auth.ktx)
-    implementation ("com.google.android.gms:play-services-auth:21.2.0")
-
-
-}
-dependencies {
-    implementation(libs.firebase.firestore.ktx)
-    implementation(libs.firebase.firestore)// Firebase BOM
-    implementation(platform("com.google.firebase:firebase-bom:32.0.0"))
-
-    // Firebase Auth
-    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation(libs.firebase.firestore)
 
     // Google Sign-In
     implementation("com.google.android.gms:play-services-auth:20.6.0")
 
-    // Other dependencies
+    // Google Maps
+    implementation("com.google.android.gms:play-services-maps:18.0.0")
+
+    // Other Dependencies
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+
+    // Testing Dependencies
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
