@@ -81,8 +81,8 @@ class CreateEvent : AppCompatActivity() {
                 "event_organizer" to eventOrganizer,
                 "event_location" to eventLocation,
                 "event_description" to eventDescription,
-                "event_start_time" to eventStart,
-                "event_end_time" to eventEnd,
+                "event_start" to eventStart,
+                "event_end" to eventEnd,
                 "event_date" to eventDate,
                 "created_by" to userId // Store the creator's user ID
             )

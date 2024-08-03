@@ -72,7 +72,7 @@ class RegisterVolunteer : AppCompatActivity() {
                     .addOnSuccessListener {
                         Toast.makeText(this, "Volunteer Registered Successfully", Toast.LENGTH_SHORT).show()
                         // Navigate back to volunteerlist activity
-                        val intent = Intent(this, VolunteerListActivity::class.java)
+                        val intent = Intent(this, volunteerList::class.java)
                         startActivity(intent)
                         finish() // Finish the current activity to remove it from the back stack
                     }

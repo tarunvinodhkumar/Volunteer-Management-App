@@ -15,7 +15,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.Calendar
 
-class EditEventActivity : AppCompatActivity() {
+class EditEvent : AppCompatActivity() {
 
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
@@ -79,18 +79,18 @@ class EditEventActivity : AppCompatActivity() {
                         populateEventDetails(document)
                     } else {
                         // User is not the creator, restrict access
-                        Log.w("EditEventActivity", "Unauthorized access attempt")
+                        Log.w("EditEvent", "Unauthorized access attempt")
                         Toast.makeText(this, "Unauthorized access", Toast.LENGTH_SHORT).show()
                         finish() // Close the activity or show a message
                     }
                 } else {
-                    Log.w("EditEventActivity", "No such event")
+                    Log.w("EditEvent", "No such event")
                     Toast.makeText(this, "Event does not exist", Toast.LENGTH_SHORT).show()
                     finish() // Close the activity if the event does not exist
                 }
             }
             .addOnFailureListener { e ->
-                Log.w("EditEventActivity", "Error checking event ownership", e)
+                Log.w("EditEvent", "Error checking event ownership", e)
                 Toast.makeText(this, "Error checking event ownership", Toast.LENGTH_SHORT).show()
                 finish() // Close the activity on error
             }
@@ -101,8 +101,8 @@ class EditEventActivity : AppCompatActivity() {
         editEventOrganizer.setText(document.getString("event_organizer") ?: "")
         editEventLocation.setText(document.getString("event_location") ?: "")
         editEventDescription.setText(document.getString("event_description") ?: "")
-        editEventStart.setText(document.getString("event_start_time") ?: "")
-        editEventEnd.setText(document.getString("event_end_time") ?: "")
+        editEventStart.setText(document.getString("event_start") ?: "")
+        editEventEnd.setText(document.getString("event_end") ?: "")
         editEventDate.setText(document.getString("event_date") ?: "")
     }
 
@@ -154,35 +154,35 @@ class EditEventActivity : AppCompatActivity() {
     }
 
     private fun saveEventChanges() {
-        Log.d("EditEventActivity", "Event Name: ${editEventName.text}")
-        Log.d("EditEventActivity", "Event Organizer: ${editEventOrganizer.text}")
-        Log.d("EditEventActivity", "Event Location: ${editEventLocation.text}")
-        Log.d("EditEventActivity", "Event Description: ${editEventDescription.text}")
-        Log.d("EditEventActivity", "Event Start Time: ${editEventStart.text}")
-        Log.d("EditEventActivity", "Event End Time: ${editEventEnd.text}")
-        Log.d("EditEventActivity", "Event Date: ${editEventDate.text}")
+        Log.d("EditEvent", "Event Name: ${editEventName.text}")
+        Log.d("EditEvent", "Event Organizer: ${editEventOrganizer.text}")
+        Log.d("EditEvent", "Event Location: ${editEventLocation.text}")
+        Log.d("EditEvent", "Event Description: ${editEventDescription.text}")
+        Log.d("EditEvent", "Event Start Time: ${editEventStart.text}")
+        Log.d("EditEvent", "Event End Time: ${editEventEnd.text}")
+        Log.d("EditEvent", "Event Date: ${editEventDate.text}")
 
         val updatedEvent: MutableMap<String, Any> = hashMapOf(
             "event_name" to editEventName.text.toString(),
             "event_organizer" to editEventOrganizer.text.toString(),
             "event_location" to editEventLocation.text.toString(),
             "event_description" to editEventDescription.text.toString(),
-            "event_start_time" to editEventStart.text.toString(),
-            "event_end_time" to editEventEnd.text.toString(),
+            "event_start" to editEventStart.text.toString(),
+            "event_end" to editEventEnd.text.toString(),
             "event_date" to editEventDate.text.toString()
         )
 
-        Log.d("EditEventActivity", "Updating event: $updatedEvent")
+        Log.d("EditEvent", "Updating event: $updatedEvent")
 
         db.collection("event_details").document(eventId)
             .update(updatedEvent)
             .addOnSuccessListener {
-                Log.d("EditEventActivity", "Event updated successfully")
+                Log.d("EditEvent", "Event updated successfully")
                 Toast.makeText(this, "Event updated successfully", Toast.LENGTH_SHORT).show()
                 finish()
             }
             .addOnFailureListener { e ->
-                Log.w("EditEventActivity", "Error updating event", e)
+                Log.w("EditEvent", "Error updating event", e)
                 Toast.makeText(this, "Error updating event", Toast.LENGTH_SHORT).show()
             }
     }

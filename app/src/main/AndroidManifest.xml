@@ -29,11 +29,11 @@
             android:theme="@style/AppTheme"
             android:exported="true"/>
         <activity
-            android:name=".EventListActivity"
+            android:name=".eventlist"
             android:theme="@style/AppTheme"
             android:exported="true"/>
         <activity
-            android:name=".VolunteerListActivity"
+            android:name=".volunteerList"
             android:theme="@style/AppTheme"
             android:exported="true"/>
         <activity
@@ -45,7 +45,7 @@
             android:theme="@style/AppTheme"
             android:exported="true"/>
         <activity
-            android:name=".EditEventActivity"
+            android:name=".EditEvent"
             android:theme="@style/AppTheme"
             android:exported="true"/>
     </application>

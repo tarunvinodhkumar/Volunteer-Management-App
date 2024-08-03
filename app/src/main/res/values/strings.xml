@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Volunteer Management App</string>
     <string-array name="sort_options">
-        <item>Name</item>
-        <item>Date</item>
+        <item>Sort By Name</item>
+        <item>Sort By Date</item>
     </string-array>
 </resources>
