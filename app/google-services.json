@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "680257284448-kn3manmaqg0fqbs70poji0g29u6emnt5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.volunteermanagementapp",
+            "certificate_hash": "d5bca89639edef6e9f7f1564f0a2c1a08907e02c"
+          }
+        },
+        {
           "client_id": "680257284448-uq9c28fnl438ispt4aa7c6v7djoalnb9.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

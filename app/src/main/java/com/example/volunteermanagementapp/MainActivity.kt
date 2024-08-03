@@ -1,60 +1,32 @@
 package com.example.volunteermanagementapp
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.firebase.auth.FirebaseAuth
+import android.os.Handler
+import android.os.Looper
+import androidx.appcompat.app.AppCompatActivity
+import android.widget.ImageView
+import android.widget.ProgressBar
 
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var mGoogleSignInClient: GoogleSignInClient
-    private lateinit var mAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mAuth = FirebaseAuth.getInstance()
+        // Show the loading animation (if any)
+        val logoImage = findViewById<ImageView>(R.id.logoImage)
+        // Load your logo image if necessary
 
-        if (mAuth.currentUser == null) {
-            val intent = Intent(this, SignInActivity::class.java)
+        val loadingBar = findViewById<ProgressBar>(R.id.loadingBar)
+        loadingBar.isIndeterminate = true // Set loading bar to indeterminate mode
+
+        // Delay for 3 seconds
+        Handler(Looper.getMainLooper()).postDelayed({
+            // Start LoginActivity after the delay
+            val intent = Intent(this, Login::class.java)
             startActivity(intent)
             finish()
-            return
-        }
-
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
-
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
-
-        val textView = findViewById<TextView>(R.id.name)
-        val user = mAuth.currentUser
-
-        user?.let {
-            val userName = user.displayName
-            textView.text = "Welcome, $userName"
-        }
-
-        val signOutButton = findViewById<Button>(R.id.logout_button)
-        signOutButton.setOnClickListener {
-            signOutAndStartSignInActivity()
-        }
-    }
-
-    private fun signOutAndStartSignInActivity() {
-        mAuth.signOut()
-        mGoogleSignInClient.signOut().addOnCompleteListener(this) {
-            val intent = Intent(this@MainActivity, SignInActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
+        }, 300) // 3000 milliseconds = 3 seconds
     }
 }

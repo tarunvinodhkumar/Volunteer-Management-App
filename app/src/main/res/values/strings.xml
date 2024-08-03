@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string  name="app_name">VolunteerManagementApp</string>
-    <string name="default_web_client_id">680257284448-uq9c28fnl438ispt4aa7c6v7djoalnb9.apps.googleusercontent.com</string>
-    <string name="logout">Logout</string>
-    <string name="be_a_volunteer">Be a Volunteer</string>
+    <string name="app_name">Volunteer Connect</string>
+    <string name="default_web_client_id">1:680257284448:android:13d32afe522de0af361605</string>
+    <string-array name="sort_options">
+        <item>Sort by Name</item>
+        <item>Sort by Date</item>
+    </string-array>
 </resources>
