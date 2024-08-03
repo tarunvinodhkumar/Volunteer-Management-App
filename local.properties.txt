@@ -1,1 +1,1 @@
-C:\Users\Acer\AppData\Local\Android\Sdk
+sdk.dir=C\:\\Users\\Jithin Reji Koshy\\AppData\\Local\\Android\\Sdk
