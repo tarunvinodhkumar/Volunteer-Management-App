@@ -1,0 +1,12 @@
+<!-- res/menu/home_menu.xml -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/profile"
+        android:title="User Profile"/>
+    <item
+        android:id="@+id/volunteer"
+        android:title="Be a Volunteer"/>
+    <item
+        android:id="@+id/logout"
+        android:title="Log Out"/>
+</menu>

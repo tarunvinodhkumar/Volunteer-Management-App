@@ -10,19 +10,16 @@
         android:theme="@style/Theme.Design.Light">
 
         <activity
-            android:name=".MainActivity"
-            android:exported="true"> <!-- Ensure MainActivity is exported -->
+            android:name=".SignInActivity"
+            android:exported="true"> <!-- Make SignInActivity the launcher activity -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".SignInActivity"
-            android:exported="true"> <!-- Ensure SignInActivity is exported -->
-        </activity>
-
+        <activity android:name=".HomeActivity"
+            android:exported="true"/>
     </application>
 
 </manifest>

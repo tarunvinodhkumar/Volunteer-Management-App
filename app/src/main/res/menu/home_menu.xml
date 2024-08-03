@@ -1,0 +1,19 @@
+<!-- res/menu/home_menu.xml -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_profile"
+        android:title="Profile"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_volunteer"
+        android:title="@string/be_a_volunteer"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_logout"
+        android:title="@string/logout"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+</menu>
