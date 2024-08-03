@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Volunteer Management App</string>
+    <string name="app_name">Volunteer Connect</string>
     <string-array name="sort_options">
         <item>Sort By Name</item>
         <item>Sort By Date</item>

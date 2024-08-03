@@ -28,14 +28,14 @@ class WelcomeActivity : AppCompatActivity() {
         val volunteerButton = findViewById<Button>(R.id.volunteer_button)
         volunteerButton.setOnClickListener {
             // Start Volunteer List Activity
-            startActivity(Intent(this, volunteerList::class.java))
+            startActivity(Intent(this, eventlist::class.java))
         }
 
         // Event Manager button logic
         val eventManagerButton = findViewById<Button>(R.id.event_manager_button)
         eventManagerButton.setOnClickListener {
             // Start Event List Activity
-            startActivity(Intent(this, eventlist::class.java))
+            startActivity(Intent(this, volunteerList::class.java))
         }
     }
 
