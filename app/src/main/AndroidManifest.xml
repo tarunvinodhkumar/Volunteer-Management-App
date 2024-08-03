@@ -15,29 +15,39 @@
         android:theme="@style/Theme.VolunteerManagementApp"
         tools:targetApi="31" >
         <activity
-            android:name=".MainActivity" android:theme="@style/AppTheme.NoActionBar"
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".Login" android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".WelcomeActivity" android:theme="@style/AppTheme"
-            android:exported="true">
-        </activity>
-        <activity android:name=".eventlist" android:theme="@style/AppTheme"
+            android:name=".WelcomeActivity"
+            android:theme="@style/AppTheme"
             android:exported="true"/>
-        <activity android:name=".volunteerList" android:theme="@style/AppTheme"
+        <activity
+            android:name=".EventListActivity"
+            android:theme="@style/AppTheme"
             android:exported="true"/>
-        <activity android:name=".CreateEvent" android:theme="@style/AppTheme"
+        <activity
+            android:name=".VolunteerListActivity"
+            android:theme="@style/AppTheme"
             android:exported="true"/>
-        <activity android:name=".RegisterVolunteer" android:theme="@style/AppTheme"
+        <activity
+            android:name=".CreateEvent"
+            android:theme="@style/AppTheme"
             android:exported="true"/>
-
-
+        <activity
+            android:name=".RegisterVolunteer"
+            android:theme="@style/AppTheme"
+            android:exported="true"/>
+        <activity
+            android:name=".EditEventActivity"
+            android:theme="@style/AppTheme"
+            android:exported="true"/>
     </application>
 
 </manifest>

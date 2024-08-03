@@ -21,7 +21,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.QuerySnapshot
 
-class eventlist : AppCompatActivity() {
+class EventListActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var eventArrayList: ArrayList<Event>
@@ -50,12 +50,12 @@ class eventlist : AppCompatActivity() {
                 when (checkedId) {
                     R.id.events_toggle -> {
                         // Navigate to EventsActivity
-                        val intent = Intent(this, eventlist::class.java)
+                        val intent = Intent(this, EventListActivity::class.java)
                         startActivity(intent)
                     }
                     R.id.volunteers_toggle -> {
                         // Navigate to VolunteersActivity
-                        val intent = Intent(this, volunteerList::class.java)
+                        val intent = Intent(this, VolunteerListActivity::class.java)
                         startActivity(intent)
                     }
                 }
@@ -83,10 +83,9 @@ class eventlist : AppCompatActivity() {
         }
 
         eventChangeListener()
-
-        val regvolunteer_button = findViewById<Button>(R.id.regvolunteer_button)
-        regvolunteer_button.setOnClickListener {
-            // Start Create Register Activity
+        val regVolunteerButton = findViewById<Button>(R.id.btn_register_vol)
+        regVolunteerButton.setOnClickListener {
+            // Start Register Volunteer Activity
             startActivity(Intent(this, RegisterVolunteer::class.java))
         }
 
@@ -143,7 +142,16 @@ class eventlist : AppCompatActivity() {
     }
 
     private fun onEditEvent(event: Event) {
-        // Handle edit action
+        val intent = Intent(this, EditEventActivity::class.java)
+        intent.putExtra("event_id", event.id)
+        intent.putExtra("event_name", event.event_name)
+        intent.putExtra("event_date", event.event_date)
+        intent.putExtra("event_start", event.event_start)
+        intent.putExtra("event_end", event.event_end)
+        intent.putExtra("event_location", event.event_location)
+        intent.putExtra("event_organizer", event.event_organizer)
+        intent.putExtra("event_description", event.event_description)
+        startActivity(intent)
     }
 
     private fun onDeleteEvent(event: Event) {

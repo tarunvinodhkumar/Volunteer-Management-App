@@ -1,9 +1,30 @@
-<!-- res/layout/item_event.xml -->
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="8dp">
+
+    <TextView
+        android:id="@+id/eventDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Event Date"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/eventStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Event Start"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/eventEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Event End"
+        android:textSize="16sp"/>
 
     <TextView
         android:id="@+id/eventName"
@@ -14,9 +35,26 @@
         android:textSize="18sp"/>
 
     <TextView
-        android:id="@+id/eventDate"
+        android:id="@+id/eventLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Event Date"
+        android:text="Event Location"
         android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/eventOrganizer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Event Organizer"
+        android:textSize="16sp"/>
+
+    <ImageButton
+        android:id="@+id/button_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_menu"
+        android:contentDescription="Menu"
+        android:layout_gravity="end"
+        android:background="?attr/selectableItemBackgroundBorderless" />
+
 </LinearLayout>

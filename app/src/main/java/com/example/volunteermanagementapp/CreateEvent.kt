@@ -36,6 +36,25 @@ class CreateEvent : AppCompatActivity() {
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
 
+        initializeUI()
+
+        // Check if user is authenticated
+        if (auth.currentUser == null) {
+            navigateToLogin()
+            return
+        }
+
+        // Set up DatePicker for event date
+        etEventDate.setOnClickListener {
+            showDatePicker()
+        }
+
+        createEventButton.setOnClickListener {
+            createEvent()
+        }
+    }
+
+    private fun initializeUI() {
         eventNameEditText = findViewById(R.id.et_event_name)
         eventOrganizerEditText = findViewById(R.id.et_event_organizer)
         eventLocationEditText = findViewById(R.id.et_event_location)
@@ -44,58 +63,63 @@ class CreateEvent : AppCompatActivity() {
         eventEndEditText = findViewById(R.id.et_event_end)
         etEventDate = findViewById(R.id.et_event_date)
         createEventButton = findViewById(R.id.btn_create_event)
+    }
 
-        // Set up DatePicker for event date
-        etEventDate.setOnClickListener {
-            showDatePicker()
+    private fun createEvent() {
+        val eventName = eventNameEditText.text.toString().trim()
+        val eventOrganizer = eventOrganizerEditText.text.toString().trim()
+        val eventLocation = eventLocationEditText.text.toString().trim()
+        val eventDescription = eventDescriptionEditText.text.toString().trim()
+        val eventStart = eventStartEditText.text.toString().trim()
+        val eventEnd = eventEndEditText.text.toString().trim()
+        val eventDate = etEventDate.text.toString().trim()
+
+        if (validateInputs(eventName, eventOrganizer, eventLocation, eventDescription, eventStart, eventEnd, eventDate)) {
+            val userId = auth.currentUser?.uid ?: return
+            val event = hashMapOf(
+                "event_name" to eventName,
+                "event_organizer" to eventOrganizer,
+                "event_location" to eventLocation,
+                "event_description" to eventDescription,
+                "event_start_time" to eventStart,
+                "event_end_time" to eventEnd,
+                "event_date" to eventDate,
+                "created_by" to userId // Store the creator's user ID
+            )
+
+            db.collection("event_details")
+                .add(event)
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Event Created Successfully", Toast.LENGTH_SHORT).show()
+                    navigateToEventList()
+                }
+                .addOnFailureListener { e ->
+                    Log.e("CreateEvent", "Error adding document", e)
+                    Toast.makeText(this, "Error creating event. Please try again.", Toast.LENGTH_SHORT).show()
+                }
         }
+    }
 
-        createEventButton.setOnClickListener {
-            val eventName = eventNameEditText.text.toString().trim()
-            val eventOrganizer = eventOrganizerEditText.text.toString().trim()
-            val eventLocation = eventLocationEditText.text.toString().trim()
-            val eventDescription = eventDescriptionEditText.text.toString().trim()
-            val eventStart = eventStartEditText.text.toString().trim()
-            val eventEnd = eventEndEditText.text.toString().trim()
-            val eventDate = etEventDate.text.toString().trim()
+    private fun validateInputs(vararg inputs: String): Boolean {
+        return inputs.all { it.isNotEmpty() }
+    }
 
-            if (eventName.isNotEmpty() && eventOrganizer.isNotEmpty() && eventLocation.isNotEmpty() && eventDescription.isNotEmpty() && eventStart.isNotEmpty() && eventEnd.isNotEmpty() && eventDate.isNotEmpty()) {
-                val event = hashMapOf(
-                    "event_name" to eventName,
-                    "event_organizer" to eventOrganizer,
-                    "event_location" to eventLocation,
-                    "event_description" to eventDescription,
-                    "event_start" to eventStart,
-                    "event_end" to eventEnd,
-                    "event_date" to eventDate
-                )
+    private fun navigateToLogin() {
+        startActivity(Intent(this, Login::class.java))
+        finish()
+    }
 
-                db.collection("event_details")
-                    .add(event)
-                    .addOnSuccessListener {
-                        Toast.makeText(this, "Event Created Successfully", Toast.LENGTH_SHORT).show()
-                        // Navigate back to eventlist activity
-                        val intent = Intent(this, eventlist::class.java)
-                        startActivity(intent)
-                        finish() // Finish the current activity to remove it from the back stack
-                    }
-                    .addOnFailureListener { e ->
-                        Log.e("CreateEvent", "Error adding document", e)
-                        Toast.makeText(this, "Error creating event", Toast.LENGTH_SHORT).show()
-                    }
-            } else {
-                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
-            }
-        }
+    private fun navigateToEventList() {
+        val intent = Intent(this, navigateToEventList()::class.java)
+        startActivity(intent)
+        finish() // Finish the current activity to remove it from the back stack
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_sign_out -> {
                 auth.signOut()
-                // Redirect back to the Login activity
-                startActivity(Intent(this, Login::class.java))
-                finish()
+                navigateToLogin()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -103,24 +127,20 @@ class CreateEvent : AppCompatActivity() {
     }
 
     private fun showDatePicker() {
-        // Get current date
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-        // Create a DatePickerDialog
         val datePickerDialog = DatePickerDialog(
             this,
             { _: DatePicker, selectedYear: Int, selectedMonth: Int, selectedDay: Int ->
-                // Format the selected date
-                val formattedDate = "${selectedDay}/${selectedMonth + 1}/${selectedYear}"
+                val formattedDate = String.format("%02d/%02d/%d", selectedDay, selectedMonth + 1, selectedYear)
                 etEventDate.setText(formattedDate)
             },
             year, month, day
         )
 
-        // Show the DatePickerDialog
         datePickerDialog.show()
     }
 }

@@ -21,7 +21,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.QuerySnapshot
 
-class volunteerList : AppCompatActivity() {
+class VolunteerListActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var volunteerArrayList: ArrayList<Volunteer>
@@ -49,13 +49,13 @@ class volunteerList : AppCompatActivity() {
             if (isChecked) {
                 when (checkedId) {
                     R.id.events_toggle -> {
-                        // Navigate to EventsActivity
-                        val intent = Intent(this, eventlist::class.java)
+                        // Navigate to EventListActivity
+                        val intent = Intent(this, EventListActivity::class.java)
                         startActivity(intent)
                     }
                     R.id.volunteers_toggle -> {
-                        // Navigate to VolunteersActivity
-                        val intent = Intent(this, volunteerList::class.java)
+                        // Navigate to VolunteerListActivity
+                        val intent = Intent(this, VolunteerListActivity::class.java)
                         startActivity(intent)
                     }
                 }
