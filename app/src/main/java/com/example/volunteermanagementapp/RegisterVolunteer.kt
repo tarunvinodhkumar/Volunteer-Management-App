@@ -1,6 +1,7 @@
 package com.example.volunteermanagementapp
 
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +9,7 @@ import android.view.MenuItem
 import android.widget.Button
 import android.widget.DatePicker
 import android.widget.EditText
+import android.widget.TimePicker
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
@@ -48,6 +50,19 @@ class RegisterVolunteer : AppCompatActivity() {
             showDatePicker()
         }
 
+        // Set up TimePickers for availability times
+        vr_avail_from_time.setOnClickListener {
+            showTimePicker { time ->
+                vr_avail_from_time.setText(time)
+            }
+        }
+
+        vr_avail_to_time.setOnClickListener {
+            showTimePicker { time ->
+                vr_avail_to_time.setText(time)
+            }
+        }
+
         btn_register_vol.setOnClickListener {
             val txt_vr_name = vr_name.text.toString().trim()
             val txt_vr_email_id = vr_email_id.text.toString().trim()
@@ -55,7 +70,6 @@ class RegisterVolunteer : AppCompatActivity() {
             val txt_vr_avail_from_time = vr_avail_from_time.text.toString().trim()
             val txt_vr_avail_to_time = vr_avail_to_time.text.toString().trim()
             val txt_vvr_avail_date = vr_avail_date.text.toString().trim()
-
 
             if (txt_vr_name.isNotEmpty() && txt_vr_email_id.isNotEmpty() && txt_vr_number.isNotEmpty() && txt_vr_avail_from_time.isNotEmpty() && txt_vr_avail_to_time.isNotEmpty() && txt_vvr_avail_date.isNotEmpty()) {
                 val vol_info = hashMapOf(
@@ -120,5 +134,22 @@ class RegisterVolunteer : AppCompatActivity() {
 
         // Show the DatePickerDialog
         datePickerDialog.show()
+    }
+
+    private fun showTimePicker(onTimeSet: (String) -> Unit) {
+        val calendar = Calendar.getInstance()
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(Calendar.MINUTE)
+
+        val timePickerDialog = TimePickerDialog(
+            this,
+            { _: TimePicker, selectedHour: Int, selectedMinute: Int ->
+                val formattedTime = String.format("%02d:%02d", selectedHour, selectedMinute)
+                onTimeSet(formattedTime)
+            },
+            hour, minute, true
+        )
+
+        timePickerDialog.show()
     }
 }

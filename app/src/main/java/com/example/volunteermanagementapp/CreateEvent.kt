@@ -1,6 +1,7 @@
 package com.example.volunteermanagementapp
 
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +9,7 @@ import android.view.MenuItem
 import android.widget.Button
 import android.widget.DatePicker
 import android.widget.EditText
+import android.widget.TimePicker
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
@@ -47,6 +49,19 @@ class CreateEvent : AppCompatActivity() {
         // Set up DatePicker for event date
         etEventDate.setOnClickListener {
             showDatePicker()
+        }
+
+        // Set up TimePickers for event start and end times
+        eventStartEditText.setOnClickListener {
+            showTimePicker { time ->
+                eventStartEditText.setText(time)
+            }
+        }
+
+        eventEndEditText.setOnClickListener {
+            showTimePicker { time ->
+                eventEndEditText.setText(time)
+            }
         }
 
         createEventButton.setOnClickListener {
@@ -110,7 +125,7 @@ class CreateEvent : AppCompatActivity() {
     }
 
     private fun navigateToEventList() {
-        val intent = Intent(this, navigateToEventList()::class.java)
+        val intent = Intent(this, eventlist::class.java)
         startActivity(intent)
         finish() // Finish the current activity to remove it from the back stack
     }
@@ -142,5 +157,22 @@ class CreateEvent : AppCompatActivity() {
         )
 
         datePickerDialog.show()
+    }
+
+    private fun showTimePicker(onTimeSet: (String) -> Unit) {
+        val calendar = Calendar.getInstance()
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(Calendar.MINUTE)
+
+        val timePickerDialog = TimePickerDialog(
+            this,
+            { _: TimePicker, selectedHour: Int, selectedMinute: Int ->
+                val formattedTime = String.format("%02d:%02d", selectedHour, selectedMinute)
+                onTimeSet(formattedTime)
+            },
+            hour, minute, true
+        )
+
+        timePickerDialog.show()
     }
 }
