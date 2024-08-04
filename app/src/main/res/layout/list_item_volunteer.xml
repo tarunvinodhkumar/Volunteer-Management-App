@@ -31,7 +31,7 @@
                 android:layout_marginStart="8dp"
                 android:text="Rithika "
                 android:textColor="@color/black"
-                android:textSize="26sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
 
@@ -54,7 +54,7 @@
                 android:layout_marginStart="8dp"
                 android:text="August "
                 android:textColor="@color/hover_state_color"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
 
@@ -74,7 +74,7 @@
                 android:id="@+id/availableStart"
                 android:text="3:00 PM - "
                 android:textColor="@color/hover_state_color"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -85,7 +85,7 @@
                 android:layout_marginStart="8dp"
                 android:text="8:00 PM "
                 android:textColor="@color/hover_state_color"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
 
