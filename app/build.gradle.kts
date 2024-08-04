@@ -64,6 +64,8 @@ dependencies {
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation(libs.firebase.storage.ktx)
+    implementation("com.github.bumptech.glide:glide:4.12.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
 
     // Test dependencies
     testImplementation("junit:junit:4.13.2")

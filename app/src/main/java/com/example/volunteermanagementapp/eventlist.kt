@@ -10,6 +10,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -88,7 +89,6 @@ class eventlist : AppCompatActivity() {
             // Start Register Volunteer Activity
             startActivity(Intent(this, RegisterVolunteer::class.java))
         }
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -155,15 +155,40 @@ class eventlist : AppCompatActivity() {
     }
 
     private fun onDeleteEvent(event: Event) {
-        db.collection("event_details").document(event.id)
-            .delete()
-            .addOnSuccessListener {
-                // Remove from the local list and update the adapter
-                eventArrayList.remove(event)
-                eventAdapter.notifyDataSetChanged()
+        val currentUserId = auth.currentUser?.uid
+
+        db.collection("event_details").document(event.id).get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    val createdBy = document.getString("created_by")
+
+                    if (createdBy == currentUserId) {
+                        // User is the creator, allow deletion
+                        db.collection("event_details").document(event.id)
+                            .delete()
+                            .addOnSuccessListener {
+                                // Remove from the local list and update the adapter
+                                eventArrayList.remove(event)
+                                eventAdapter.notifyDataSetChanged()
+                                Toast.makeText(this, "Event deleted successfully", Toast.LENGTH_SHORT).show()
+                            }
+                            .addOnFailureListener { e ->
+                                Log.w("Delete Failure", "Error deleting document", e)
+                                Toast.makeText(this, "Error deleting event", Toast.LENGTH_SHORT).show()
+                            }
+                    } else {
+                        // User is not the creator, restrict access
+                        Log.w("eventlist", "Unauthorized delete attempt")
+                        Toast.makeText(this, "Unauthorized access", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Log.w("eventlist", "No such event")
+                    Toast.makeText(this, "Event does not exist", Toast.LENGTH_SHORT).show()
+                }
             }
             .addOnFailureListener { e ->
-                Log.w("Delete Failure", "Error deleting document", e)
+                Log.w("eventlist", "Error checking event ownership", e)
+                Toast.makeText(this, "Error checking event ownership", Toast.LENGTH_SHORT).show()
             }
     }
 }
