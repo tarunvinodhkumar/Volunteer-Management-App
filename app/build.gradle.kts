@@ -37,43 +37,36 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    implementation(libs.firebase.auth)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    implementation (platform("com.google.firebase:firebase-bom:33.1.2"))
-    implementation (libs.firebase.auth.ktx)
-    implementation ("com.google.android.gms:play-services-auth:21.2.0")
 
-
-}
-dependencies {
-    implementation(libs.firebase.firestore.ktx)
-    implementation(libs.firebase.firestore)// Firebase BOM
-    implementation(platform("com.google.firebase:firebase-bom:32.0.0"))
-
-    // Firebase Auth
+    // Firebase BOM
+    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
+    //implementation(libs.firebase.auth.ktx)
+    //implementation(libs.firebase.firestore.ktx)
+    //implementation(libs.firebase.storage.ktx)
+    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
+    implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.android.gms:play-services-auth:20.4.1")
+    implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation("androidx.recyclerview:recyclerview:1.2.1")
 
-    // Google Sign-In
-    implementation("com.google.android.gms:play-services-auth:20.6.0")
+    // Google Play Services
+    implementation("com.google.android.gms:play-services-auth:21.2.0")
 
     // Other dependencies
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation ("com.google.firebase:firebase-firestore:24.7.0' // or the latest version")
+    implementation(libs.firebase.storage.ktx)
 
+    // Test dependencies
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-
-
 }

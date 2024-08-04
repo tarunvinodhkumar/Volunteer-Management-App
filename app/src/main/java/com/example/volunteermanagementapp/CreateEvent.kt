@@ -3,24 +3,30 @@ package com.example.volunteermanagementapp
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.DatePicker
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import java.util.Calendar
 
 class CreateEvent : AppCompatActivity() {
 
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
+    private lateinit var storage: FirebaseStorage
 
     private lateinit var eventNameEditText: EditText
     private lateinit var eventOrganizerEditText: EditText
@@ -30,6 +36,10 @@ class CreateEvent : AppCompatActivity() {
     private lateinit var eventEndEditText: EditText
     private lateinit var etEventDate: TextInputEditText
     private lateinit var createEventButton: Button
+    private lateinit var addPhotosButton: Button
+
+    private val PICK_PHOTO_REQUEST = 1
+    private var photoUrl: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +47,7 @@ class CreateEvent : AppCompatActivity() {
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
+        storage = FirebaseStorage.getInstance()
 
         initializeUI()
 
@@ -67,6 +78,12 @@ class CreateEvent : AppCompatActivity() {
         createEventButton.setOnClickListener {
             createEvent()
         }
+
+        // Set up photo upload button
+        addPhotosButton.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            startActivityForResult(intent, PICK_PHOTO_REQUEST)
+        }
     }
 
     private fun initializeUI() {
@@ -78,6 +95,7 @@ class CreateEvent : AppCompatActivity() {
         eventEndEditText = findViewById(R.id.et_event_end)
         etEventDate = findViewById(R.id.et_event_date)
         createEventButton = findViewById(R.id.btn_create_event)
+        addPhotosButton = findViewById(R.id.btn_add_photos)
     }
 
     private fun createEvent() {
@@ -99,7 +117,8 @@ class CreateEvent : AppCompatActivity() {
                 "event_start" to eventStart,
                 "event_end" to eventEnd,
                 "event_date" to eventDate,
-                "created_by" to userId // Store the creator's user ID
+                "created_by" to userId, // Store the creator's user ID
+                "image_url" to photoUrl // Store the photo URL if available
             )
 
             db.collection("event_details")
@@ -155,7 +174,6 @@ class CreateEvent : AppCompatActivity() {
             },
             year, month, day
         )
-
         datePickerDialog.show()
     }
 
@@ -172,7 +190,30 @@ class CreateEvent : AppCompatActivity() {
             },
             hour, minute, true
         )
-
         timePickerDialog.show()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == PICK_PHOTO_REQUEST && resultCode == RESULT_OK) {
+            val imageUri: Uri? = data?.data
+            imageUri?.let { uploadPhotoToFirebase(it) }
+        }
+    }
+
+    private fun uploadPhotoToFirebase(imageUri: Uri) {
+        val storageRef = storage.reference.child("photos/${System.currentTimeMillis()}.jpg")
+        val uploadTask = storageRef.putFile(imageUri)
+
+        uploadTask.addOnSuccessListener {
+            storageRef.downloadUrl.addOnSuccessListener { uri ->
+                // Handle the photo URL (e.g., save it in Firestore or show a success message)
+                photoUrl = uri.toString() // Save the photo URL
+                Toast.makeText(this, "Photo uploaded successfully", Toast.LENGTH_SHORT).show()
+            }
+        }.addOnFailureListener { e ->
+            Log.e("CreateEvent", "Error uploading photo", e)
+            Toast.makeText(this, "Error uploading photo. Please try again.", Toast.LENGTH_SHORT).show()
+        }
     }
 }
