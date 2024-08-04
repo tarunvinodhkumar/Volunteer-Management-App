@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.google.gms.google.services)
-    alias(libs.plugins.kotlin.parcelize) // Parcelize plugin
 }
 
 android {
@@ -33,7 +32,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11" // Update to match your Java version
     }
 }
 
@@ -44,7 +43,6 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-
 
     // Firebase BOM
     implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
