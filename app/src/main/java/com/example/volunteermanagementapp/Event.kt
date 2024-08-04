@@ -12,7 +12,8 @@ data class Event(
     var event_name: String ?= null,
     var event_organizer: String ?= null,
     var event_start: String ?= null,
-    var event_date: String ?= null
+    var event_date: String ?= null,
+    var image_url: String ?= null
 
 )
 

@@ -5,9 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 
 class EventAdapter(
     private val eventList: ArrayList<Event>,
@@ -28,6 +30,11 @@ class EventAdapter(
         holder.event_name.text = event.event_name
         holder.event_location.text = event.event_location
         holder.event_organizer.text = event.event_organizer
+
+        // Load image using Glide
+        Glide.with(holder.itemView.context)
+            .load(event.image_url)
+            .into(holder.eventImage)
 
         holder.buttonMenu.setOnClickListener {
             val popup = PopupMenu(holder.itemView.context, holder.buttonMenu)
@@ -71,6 +78,7 @@ class EventAdapter(
         val event_name: TextView = itemView.findViewById(R.id.eventName)
         val event_location: TextView = itemView.findViewById(R.id.eventLocation)
         val event_organizer: TextView = itemView.findViewById(R.id.eventOrganizer)
+        val eventImage: ImageView = itemView.findViewById(R.id.eventImage) // ImageView for event image
         val buttonMenu: ImageButton = itemView.findViewById(R.id.button_menu)
     }
 }
