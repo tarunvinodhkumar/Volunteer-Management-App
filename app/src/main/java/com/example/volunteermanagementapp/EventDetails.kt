@@ -1,6 +1,6 @@
+import java.io.Serializable
 
-
-data class Event(
+data class EventDetails(
     val event_id: String = "",
     val event_name: String = "",
     val event_organizer: String = "",
@@ -9,4 +9,4 @@ data class Event(
     val event_location: String = "",
     val event_description: String = "",
     val event_date: String =""
-)
+) : Serializable
