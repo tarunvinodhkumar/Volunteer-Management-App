@@ -63,53 +63,43 @@ class RegisterVolunteer : AppCompatActivity() {
         }
 
         btn_register_vol.setOnClickListener {
-            val txt_vr_name = vr_name.text.toString().trim()
-            val txt_vr_email_id = vr_email_id.text.toString().trim()
-            val txt_vr_number = vr_number.text.toString().trim()
-            val txt_vr_avail_from_time = vr_avail_from_time.text.toString().trim()
-            val txt_vr_avail_to_time = vr_avail_to_time.text.toString().trim()
-            val txt_vvr_avail_date = vr_avail_date.text.toString().trim()
+            registerVolunteer()
+        }
+    }
 
-            if (txt_vr_name.isNotEmpty() && txt_vr_email_id.isNotEmpty() && txt_vr_number.isNotEmpty() && txt_vr_avail_from_time.isNotEmpty() && txt_vr_avail_to_time.isNotEmpty() && txt_vvr_avail_date.isNotEmpty()) {
-                val userId = auth.currentUser?.uid ?: ""
-                val vol_info = hashMapOf(
-                    "volunteer_name" to txt_vr_name,
-                    "volunteer_email" to txt_vr_email_id,
-                    "volunteer_phone" to txt_vr_number,
-                    "volunteer_available_from" to txt_vr_avail_from_time,
-                    "volunteer_available_till" to txt_vr_avail_to_time,
-                    "volunteer_available_date" to txt_vvr_avail_date,
-                    "created_by" to userId  // Store the user ID who created the entry
-                )
-
-                db.collection("volunteer_details")
-                    .add(vol_info)
-                    .addOnSuccessListener {
-                        Toast.makeText(this, "Volunteer Registered Successfully", Toast.LENGTH_SHORT).show()
-                        val intent = Intent(this, volunteerList::class.java)
-                        startActivity(intent)
-                        finish()
-                    }
-                    .addOnFailureListener { e ->
-                        Log.e("RegisterVolunteer", "Error adding information", e)
-                        Toast.makeText(this, "Error registering volunteer", Toast.LENGTH_SHORT).show()
-                    }
-            } else {
-                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_sign_out -> {
+                auth.signOut()
+                // Redirect back to the Login activity
+                startActivity(Intent(this, Login::class.java))
+                finish()
+                true
             }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
     private fun showDatePicker() {
+        // Get current date
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-        DatePickerDialog(this, { _: DatePicker, selectedYear: Int, selectedMonth: Int, selectedDay: Int ->
-            val date = "${selectedDay}/${selectedMonth + 1}/${selectedYear}"
-            vr_avail_date.setText(date)
-        }, year, month, day).show()
+        // Create a DatePickerDialog
+        val datePickerDialog = DatePickerDialog(
+            this,
+            { _: DatePicker, selectedYear: Int, selectedMonth: Int, selectedDay: Int ->
+                // Format the selected date
+                val formattedDate = "${selectedDay}/${selectedMonth + 1}/${selectedYear}"
+                vr_avail_date.setText(formattedDate)
+            },
+            year, month, day
+        )
+
+        // Show the DatePickerDialog
+        datePickerDialog.show()
     }
 
     private fun showTimePicker(onTimeSet: (String) -> Unit) {
@@ -117,19 +107,89 @@ class RegisterVolunteer : AppCompatActivity() {
         val hour = calendar.get(Calendar.HOUR_OF_DAY)
         val minute = calendar.get(Calendar.MINUTE)
 
-        TimePickerDialog(this, { _: TimePicker, selectedHour: Int, selectedMinute: Int ->
-            val time = String.format("%02d:%02d", selectedHour, selectedMinute)
-            onTimeSet(time)
-        }, hour, minute, true).show()
+        val timePickerDialog = TimePickerDialog(
+            this,
+            { _: TimePicker, selectedHour: Int, selectedMinute: Int ->
+                val formattedTime = String.format("%02d:%02d", selectedHour, selectedMinute)
+                onTimeSet(formattedTime)
+            },
+            hour, minute, true
+        )
+
+        timePickerDialog.show()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            android.R.id.home -> {
-                onBackPressed()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
+    private fun registerVolunteer() {
+        val name = vr_name.text.toString().trim()
+        val email = vr_email_id.text.toString().trim()
+        val phone = vr_number.text.toString().trim()
+        val fromTime = vr_avail_from_time.text.toString().trim()
+        val toTime = vr_avail_to_time.text.toString().trim()
+        val date = vr_avail_date.text.toString().trim()
+
+        if (name.isEmpty() || email.isEmpty() || phone.isEmpty() || fromTime.isEmpty() || toTime.isEmpty() || date.isEmpty()) {
+            Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show()
+            return
         }
+
+        // Validate email format (basic check)
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Toast.makeText(this, "Invalid email format", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Validate phone number format (optional)
+        if (!phone.matches(Regex("\\d+"))) {
+            Toast.makeText(this, "Invalid phone number format", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Validate date format (basic check)
+        try {
+            val dateFormat = java.text.SimpleDateFormat("dd/MM/yyyy", java.util.Locale.getDefault())
+            dateFormat.parse(date)
+        } catch (e: java.text.ParseException) {
+            Toast.makeText(this, "Invalid date format. Use dd/MM/yyyy", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Validate time formats
+        try {
+            val timeFormat = java.text.SimpleDateFormat("HH:mm", java.util.Locale.getDefault())
+            timeFormat.parse(fromTime)
+            timeFormat.parse(toTime)
+        } catch (e: java.text.ParseException) {
+            Toast.makeText(this, "Invalid time format. Use HH:mm", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Get the current user ID
+        val creatorId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+
+        // Create the volunteer object
+        val volunteer = hashMapOf(
+            "volunteer_name" to name,
+            "volunteer_email" to email,
+            "volunteer_phone" to phone,
+            "volunteer_available_from" to fromTime,
+            "volunteer_available_till" to toTime,
+            "volunteer_available_date" to date,
+            "creatorId" to creatorId // Add creatorId to the volunteer details
+        )
+
+        // Add the volunteer to Firestore
+        db.collection("volunteer_details")
+            .add(volunteer)
+            .addOnSuccessListener {
+                Toast.makeText(this, "Volunteer Registered Successfully", Toast.LENGTH_SHORT).show()
+                // Navigate back to volunteer list activity
+                val intent = Intent(this, volunteerList::class.java)
+                startActivity(intent)
+                finish() // Finish the current activity to remove it from the back stack
+            }
+            .addOnFailureListener { e ->
+                Log.e("RegisterVolunteer", "Error adding information", e)
+                Toast.makeText(this, "Error registering volunteer", Toast.LENGTH_SHORT).show()
+            }
     }
 }

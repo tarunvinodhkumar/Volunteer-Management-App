@@ -10,7 +10,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -41,8 +40,12 @@ class volunteerList : AppCompatActivity() {
         recyclerView.setHasFixedSize(true)
 
         volunteerArrayList = arrayListOf()
-        volunteerAdapter =
-            VolunteerAdapter(volunteerArrayList, ::onEditVolunteer, ::onDeleteVolunteer)
+        volunteerAdapter = VolunteerAdapter(
+            volunteerArrayList,
+            this, // Pass the activity context
+            ::onEditVolunteer,
+            ::onDeleteVolunteer
+        )
         recyclerView.adapter = volunteerAdapter
 
         // Set up the toggle button group
@@ -55,7 +58,6 @@ class volunteerList : AppCompatActivity() {
                         val intent = Intent(this, eventlist::class.java)
                         startActivity(intent)
                     }
-
                     R.id.volunteers_toggle -> {
                         // Navigate to VolunteerListActivity
                         val intent = Intent(this, volunteerList::class.java)
@@ -114,20 +116,18 @@ class volunteerList : AppCompatActivity() {
                 finish()
                 true
             }
-
             else -> super.onOptionsItemSelected(item)
         }
     }
 
     private fun eventChangeListener() {
         db = FirebaseFirestore.getInstance()
-        db.collection("volunteer_details")
-            .addSnapshotListener(object : EventListener<QuerySnapshot> {
-                override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
-                    if (error != null) {
-                        Log.e("Firestore Error", error.message.toString())
-                        return
-                    }
+        db.collection("volunteer_details").addSnapshotListener(object : EventListener<QuerySnapshot> {
+            override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                if (error != null) {
+                    Log.e("Firestore Error", error.message.toString())
+                    return
+                }
 
                     for (dc: DocumentChange in value?.documentChanges!!) {
                         if (dc.type == DocumentChange.Type.ADDED) {
@@ -137,9 +137,9 @@ class volunteerList : AppCompatActivity() {
                         }
                     }
 
-                    volunteerAdapter.notifyDataSetChanged()
-                }
-            })
+                volunteerAdapter.notifyDataSetChanged()
+            }
+        })
     }
 
     private fun sortByName() {
@@ -147,14 +147,23 @@ class volunteerList : AppCompatActivity() {
         volunteerAdapter.notifyDataSetChanged()
     }
 
-
     private fun sortByDate() {
         volunteerArrayList.sortBy { it.volunteer_available_date }
         volunteerAdapter.notifyDataSetChanged()
     }
 
     private fun onEditVolunteer(volunteer: Volunteer) {
-        // Handle edit action
+        // Handle the edit action
+        val intent = Intent(this, EditVolunteer::class.java).apply {
+            putExtra("volunteer_id", volunteer.id)
+            putExtra("volunteer_name", volunteer.volunteer_name)
+            putExtra("volunteer_email", volunteer.volunteer_email)
+            putExtra("volunteer_phone", volunteer.volunteer_phone)
+            putExtra("volunteer_available_date", volunteer.volunteer_available_date)
+            putExtra("volunteer_available_from", volunteer.volunteer_available_from)
+            putExtra("volunteer_available_till", volunteer.volunteer_available_till)
+        }
+        startActivity(intent)
     }
 
     private fun onDeleteVolunteer(volunteer: Volunteer) {

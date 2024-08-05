@@ -1,5 +1,6 @@
 package com.example.volunteermanagementapp
 
+
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -10,13 +11,18 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.PopupMenu
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.FirebaseFirestore
 
 class VolunteerAdapter(
     private val volunteerList: ArrayList<Volunteer>,
+    private val context: Context,
     private val onEdit: (Volunteer) -> Unit,
     private val onDelete: (Volunteer) -> Unit
 ) : RecyclerView.Adapter<VolunteerAdapter.MyViewHolder>() {
+
+    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.list_item_volunteer, parent, false)
@@ -36,28 +42,37 @@ class VolunteerAdapter(
             val intent = Intent(Intent.ACTION_SENDTO).apply {
                 data = Uri.parse("mailto:${volunteer.volunteer_email}")
             }
-            holder.itemView.context.startActivity(intent)
+            context.startActivity(intent)
         }
 
-        // Make phone number clickable
         holder.volunteer_phone.setOnClickListener {
             val intent = Intent(Intent.ACTION_DIAL).apply {
                 data = Uri.parse("tel:${volunteer.volunteer_phone}")
             }
-            holder.itemView.context.startActivity(intent)
+            context.startActivity(intent)
         }
 
         holder.buttonMenu.setOnClickListener {
-            val popup = PopupMenu(holder.itemView.context, holder.buttonMenu)
+            val popup = PopupMenu(context, holder.buttonMenu)
             popup.menuInflater.inflate(R.menu.cardview_menu, popup.menu)
             popup.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.action_edit -> {
-                        onEdit(volunteer)
+                        // Start EditVolunteer activity
+                        val intent = Intent(context, EditVolunteer::class.java).apply {
+                            putExtra("volunteer_id", volunteer.id) // Pass the volunteer ID
+                            putExtra("volunteer_name", volunteer.volunteer_name)
+                            putExtra("volunteer_email", volunteer.volunteer_email)
+                            putExtra("volunteer_phone", volunteer.volunteer_phone)
+                            putExtra("volunteer_available_date", volunteer.volunteer_available_date)
+                            putExtra("volunteer_available_from", volunteer.volunteer_available_from)
+                            putExtra("volunteer_available_till", volunteer.volunteer_available_till)
+                        }
+                        context.startActivity(intent)
                         true
                     }
                     R.id.action_delete -> {
-                        showDeleteConfirmationDialog(holder.itemView.context, volunteer)
+                        showDeleteConfirmationDialog(context, volunteer)
                         true
                     }
                     else -> false
@@ -84,9 +99,15 @@ class VolunteerAdapter(
     private fun showDeleteConfirmationDialog(context: Context, volunteer: Volunteer) {
         AlertDialog.Builder(context).apply {
             setTitle("Delete Confirmation")
-            setMessage("Are you sure you want to delete this from the list?")
+            setMessage("Are you sure you want to delete this volunteer?")
             setPositiveButton("Yes") { dialog, _ ->
-                onDelete(volunteer)
+                db.collection("volunteer_details").document(volunteer.id).delete()
+                    .addOnSuccessListener {
+                        Toast.makeText(context, "Volunteer deleted successfully", Toast.LENGTH_SHORT).show()
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(context, "Error deleting volunteer: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
                 dialog.dismiss()
             }
             setNegativeButton("No") { dialog, _ ->
