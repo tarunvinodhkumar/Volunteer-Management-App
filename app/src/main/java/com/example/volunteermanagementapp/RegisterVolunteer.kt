@@ -12,7 +12,6 @@ import android.widget.EditText
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.Calendar
@@ -72,23 +71,24 @@ class RegisterVolunteer : AppCompatActivity() {
             val txt_vvr_avail_date = vr_avail_date.text.toString().trim()
 
             if (txt_vr_name.isNotEmpty() && txt_vr_email_id.isNotEmpty() && txt_vr_number.isNotEmpty() && txt_vr_avail_from_time.isNotEmpty() && txt_vr_avail_to_time.isNotEmpty() && txt_vvr_avail_date.isNotEmpty()) {
+                val userId = auth.currentUser?.uid ?: ""
                 val vol_info = hashMapOf(
                     "volunteer_name" to txt_vr_name,
                     "volunteer_email" to txt_vr_email_id,
                     "volunteer_phone" to txt_vr_number,
                     "volunteer_available_from" to txt_vr_avail_from_time,
                     "volunteer_available_till" to txt_vr_avail_to_time,
-                    "volunteer_available_date" to txt_vvr_avail_date
+                    "volunteer_available_date" to txt_vvr_avail_date,
+                    "created_by" to userId  // Store the user ID who created the entry
                 )
 
                 db.collection("volunteer_details")
                     .add(vol_info)
                     .addOnSuccessListener {
                         Toast.makeText(this, "Volunteer Registered Successfully", Toast.LENGTH_SHORT).show()
-                        // Navigate back to volunteerlist activity
                         val intent = Intent(this, volunteerList::class.java)
                         startActivity(intent)
-                        finish() // Finish the current activity to remove it from the back stack
+                        finish()
                     }
                     .addOnFailureListener { e ->
                         Log.e("RegisterVolunteer", "Error adding information", e)
@@ -100,40 +100,16 @@ class RegisterVolunteer : AppCompatActivity() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_sign_out -> {
-                auth.signOut()
-                // Redirect back to the Login activity
-                startActivity(Intent(this, Login::class.java))
-                finish()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
     private fun showDatePicker() {
-        // Get current date
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-        // Create a DatePickerDialog
-        val datePickerDialog = DatePickerDialog(
-            this,
-            { _: DatePicker, selectedYear: Int, selectedMonth: Int, selectedDay: Int ->
-                // Format the selected date
-                val formattedDate = "${selectedDay}/${selectedMonth + 1}/${selectedYear}"
-                vr_avail_date.setText(formattedDate)
-
-            },
-            year, month, day
-        )
-
-        // Show the DatePickerDialog
-        datePickerDialog.show()
+        DatePickerDialog(this, { _: DatePicker, selectedYear: Int, selectedMonth: Int, selectedDay: Int ->
+            val date = "${selectedDay}/${selectedMonth + 1}/${selectedYear}"
+            vr_avail_date.setText(date)
+        }, year, month, day).show()
     }
 
     private fun showTimePicker(onTimeSet: (String) -> Unit) {
@@ -141,15 +117,19 @@ class RegisterVolunteer : AppCompatActivity() {
         val hour = calendar.get(Calendar.HOUR_OF_DAY)
         val minute = calendar.get(Calendar.MINUTE)
 
-        val timePickerDialog = TimePickerDialog(
-            this,
-            { _: TimePicker, selectedHour: Int, selectedMinute: Int ->
-                val formattedTime = String.format("%02d:%02d", selectedHour, selectedMinute)
-                onTimeSet(formattedTime)
-            },
-            hour, minute, true
-        )
+        TimePickerDialog(this, { _: TimePicker, selectedHour: Int, selectedMinute: Int ->
+            val time = String.format("%02d:%02d", selectedHour, selectedMinute)
+            onTimeSet(time)
+        }, hour, minute, true).show()
+    }
 
-        timePickerDialog.show()
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

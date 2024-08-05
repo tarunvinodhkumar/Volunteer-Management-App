@@ -8,6 +8,7 @@ data class Volunteer(
     var volunteer_available_till: String ?= null,
     var volunteer_email: String ?= null,
     var volunteer_name: String ?= null,
-    var volunteer_phone: String ?= null
+    var volunteer_phone: String ?= null,
+    var created_by: String? = null
 
 )
