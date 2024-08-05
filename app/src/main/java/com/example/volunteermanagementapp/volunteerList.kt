@@ -122,7 +122,9 @@ class volunteerList : AppCompatActivity() {
 
                 for (dc: DocumentChange in value?.documentChanges!!) {
                     if (dc.type == DocumentChange.Type.ADDED) {
-                        volunteerArrayList.add(dc.document.toObject(Volunteer::class.java))
+                        val volunteer = dc.document.toObject(Volunteer::class.java)
+                        volunteer.id = dc.document.id
+                        volunteerArrayList.add(volunteer)
                     }
                 }
 
