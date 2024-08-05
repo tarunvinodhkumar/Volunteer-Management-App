@@ -1,5 +1,8 @@
 package com.example.volunteermanagementapp
 
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
@@ -43,6 +46,11 @@ class EventDetailsActivity : AppCompatActivity() {
             Toast.makeText(this, "Event ID is missing", Toast.LENGTH_SHORT).show()
             finish()
         }
+
+        eventLocation.setOnClickListener {
+            val location = eventLocation.text.toString()
+            openLocationInMaps(location)
+        }
     }
 
     private fun fetchEventDetails(eventId: String) {
@@ -70,5 +78,26 @@ class EventDetailsActivity : AppCompatActivity() {
                 Toast.makeText(this, "Error fetching event details", Toast.LENGTH_SHORT).show()
                 finish()
             }
+    }
+
+    private fun openLocationInMaps(location: String) {
+        val gmmIntentUri = Uri.parse("geo:0,0?q=${Uri.encode(location)}")
+        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+        mapIntent.setPackage("com.google.android.apps.maps")
+
+        val packageManager: PackageManager = packageManager
+        val activities = packageManager.queryIntentActivities(mapIntent, 0)
+        val isIntentSafe = activities.isNotEmpty()
+
+        Log.d("EventDetailsActivity", "Available activities: ${activities.size}")
+        activities.forEach { activity ->
+            Log.d("EventDetailsActivity", "Activity: ${activity.activityInfo.packageName}")
+        }
+
+        if (isIntentSafe) {
+            startActivity(mapIntent)
+        } else {
+            Toast.makeText(this, "No maps application installed", Toast.LENGTH_SHORT).show()
+        }
     }
 }

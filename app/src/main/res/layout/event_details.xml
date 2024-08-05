@@ -22,7 +22,7 @@
     <ImageView
         android:id="@+id/event_image"
         android:layout_width="0dp"
-        android:layout_height="200dp"
+        android:layout_height="300dp"
         android:scaleType="centerCrop"
         android:contentDescription="Event Image"
         app:layout_constraintTop_toBottomOf="@id/event_name"
@@ -115,6 +115,10 @@
         app:layout_constraintTop_toTopOf="@id/event_location_label"
         app:layout_constraintLeft_toRightOf="@id/event_location_label"
         app:layout_constraintRight_toRightOf="parent"
+        android:linksClickable="true"
+        android:autoLink="none"
+        android:clickable="true"
+        android:textColor="@color/hover_state_color"
         android:layout_marginStart="8dp"/>
 
     <TextView
