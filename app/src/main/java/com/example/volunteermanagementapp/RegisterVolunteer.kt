@@ -12,7 +12,6 @@ import android.widget.EditText
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.Calendar
@@ -64,39 +63,7 @@ class RegisterVolunteer : AppCompatActivity() {
         }
 
         btn_register_vol.setOnClickListener {
-            val txt_vr_name = vr_name.text.toString().trim()
-            val txt_vr_email_id = vr_email_id.text.toString().trim()
-            val txt_vr_number = vr_number.text.toString().trim()
-            val txt_vr_avail_from_time = vr_avail_from_time.text.toString().trim()
-            val txt_vr_avail_to_time = vr_avail_to_time.text.toString().trim()
-            val txt_vvr_avail_date = vr_avail_date.text.toString().trim()
-
-            if (txt_vr_name.isNotEmpty() && txt_vr_email_id.isNotEmpty() && txt_vr_number.isNotEmpty() && txt_vr_avail_from_time.isNotEmpty() && txt_vr_avail_to_time.isNotEmpty() && txt_vvr_avail_date.isNotEmpty()) {
-                val vol_info = hashMapOf(
-                    "volunteer_name" to txt_vr_name,
-                    "volunteer_email" to txt_vr_email_id,
-                    "volunteer_phone" to txt_vr_number,
-                    "volunteer_available_from" to txt_vr_avail_from_time,
-                    "volunteer_available_till" to txt_vr_avail_to_time,
-                    "volunteer_available_date" to txt_vvr_avail_date
-                )
-
-                db.collection("volunteer_details")
-                    .add(vol_info)
-                    .addOnSuccessListener {
-                        Toast.makeText(this, "Volunteer Registered Successfully", Toast.LENGTH_SHORT).show()
-                        // Navigate back to volunteerlist activity
-                        val intent = Intent(this, volunteerList::class.java)
-                        startActivity(intent)
-                        finish() // Finish the current activity to remove it from the back stack
-                    }
-                    .addOnFailureListener { e ->
-                        Log.e("RegisterVolunteer", "Error adding information", e)
-                        Toast.makeText(this, "Error registering volunteer", Toast.LENGTH_SHORT).show()
-                    }
-            } else {
-                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
-            }
+            registerVolunteer()
         }
     }
 
@@ -127,7 +94,6 @@ class RegisterVolunteer : AppCompatActivity() {
                 // Format the selected date
                 val formattedDate = "${selectedDay}/${selectedMonth + 1}/${selectedYear}"
                 vr_avail_date.setText(formattedDate)
-
             },
             year, month, day
         )
@@ -151,5 +117,79 @@ class RegisterVolunteer : AppCompatActivity() {
         )
 
         timePickerDialog.show()
+    }
+
+    private fun registerVolunteer() {
+        val name = vr_name.text.toString().trim()
+        val email = vr_email_id.text.toString().trim()
+        val phone = vr_number.text.toString().trim()
+        val fromTime = vr_avail_from_time.text.toString().trim()
+        val toTime = vr_avail_to_time.text.toString().trim()
+        val date = vr_avail_date.text.toString().trim()
+
+        if (name.isEmpty() || email.isEmpty() || phone.isEmpty() || fromTime.isEmpty() || toTime.isEmpty() || date.isEmpty()) {
+            Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Validate email format (basic check)
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Toast.makeText(this, "Invalid email format", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Validate phone number format (optional)
+        if (!phone.matches(Regex("\\d+"))) {
+            Toast.makeText(this, "Invalid phone number format", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Validate date format (basic check)
+        try {
+            val dateFormat = java.text.SimpleDateFormat("dd/MM/yyyy", java.util.Locale.getDefault())
+            dateFormat.parse(date)
+        } catch (e: java.text.ParseException) {
+            Toast.makeText(this, "Invalid date format. Use dd/MM/yyyy", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Validate time formats
+        try {
+            val timeFormat = java.text.SimpleDateFormat("HH:mm", java.util.Locale.getDefault())
+            timeFormat.parse(fromTime)
+            timeFormat.parse(toTime)
+        } catch (e: java.text.ParseException) {
+            Toast.makeText(this, "Invalid time format. Use HH:mm", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Get the current user ID
+        val creatorId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+
+        // Create the volunteer object
+        val volunteer = hashMapOf(
+            "volunteer_name" to name,
+            "volunteer_email" to email,
+            "volunteer_phone" to phone,
+            "volunteer_available_from" to fromTime,
+            "volunteer_available_till" to toTime,
+            "volunteer_available_date" to date,
+            "creatorId" to creatorId // Add creatorId to the volunteer details
+        )
+
+        // Add the volunteer to Firestore
+        db.collection("volunteer_details")
+            .add(volunteer)
+            .addOnSuccessListener {
+                Toast.makeText(this, "Volunteer Registered Successfully", Toast.LENGTH_SHORT).show()
+                // Navigate back to volunteer list activity
+                val intent = Intent(this, volunteerList::class.java)
+                startActivity(intent)
+                finish() // Finish the current activity to remove it from the back stack
+            }
+            .addOnFailureListener { e ->
+                Log.e("RegisterVolunteer", "Error adding information", e)
+                Toast.makeText(this, "Error registering volunteer", Toast.LENGTH_SHORT).show()
+            }
     }
 }

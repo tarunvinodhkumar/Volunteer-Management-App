@@ -10,6 +10,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -40,7 +41,12 @@ class volunteerList : AppCompatActivity() {
         recyclerView.setHasFixedSize(true)
 
         volunteerArrayList = arrayListOf()
-        volunteerAdapter = VolunteerAdapter(volunteerArrayList, ::onEditVolunteer, ::onDeleteVolunteer)
+        volunteerAdapter = VolunteerAdapter(
+            volunteerArrayList,
+            this, // Pass the activity context
+            ::onEditVolunteer,
+            ::onDeleteVolunteer
+        )
         recyclerView.adapter = volunteerAdapter
 
         // Set up the toggle button group
@@ -121,7 +127,9 @@ class volunteerList : AppCompatActivity() {
 
                 for (dc: DocumentChange in value?.documentChanges!!) {
                     if (dc.type == DocumentChange.Type.ADDED) {
-                        volunteerArrayList.add(dc.document.toObject(Volunteer::class.java))
+                        val volunteer = dc.document.toObject(Volunteer::class.java)
+                        volunteer.id = dc.document.id
+                        volunteerArrayList.add(volunteer)
                     }
                 }
 
@@ -141,10 +149,54 @@ class volunteerList : AppCompatActivity() {
     }
 
     private fun onEditVolunteer(volunteer: Volunteer) {
-        // Handle edit action
+        // Handle the edit action
+        val intent = Intent(this, EditVolunteer::class.java).apply {
+            putExtra("volunteer_id", volunteer.id)
+            putExtra("volunteer_name", volunteer.volunteer_name)
+            putExtra("volunteer_email", volunteer.volunteer_email)
+            putExtra("volunteer_phone", volunteer.volunteer_phone)
+            putExtra("volunteer_available_date", volunteer.volunteer_available_date)
+            putExtra("volunteer_available_from", volunteer.volunteer_available_from)
+            putExtra("volunteer_available_till", volunteer.volunteer_available_till)
+        }
+        startActivity(intent)
     }
 
     private fun onDeleteVolunteer(volunteer: Volunteer) {
-        // Handle delete action
+        val currentUserId = auth.currentUser?.uid
+
+        db.collection("volunteer_details").document(volunteer.id).get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    val createdBy = document.getString("created_by")
+
+                    if (createdBy == currentUserId) {
+                        // User is the creator, allow deletion
+                        db.collection("volunteer_details").document(volunteer.id)
+                            .delete()
+                            .addOnSuccessListener {
+                                // Remove from the local list and update the adapter
+                                volunteerArrayList.remove(volunteer)
+                                volunteerAdapter.notifyDataSetChanged()
+                                Toast.makeText(this, "Volunteer deleted successfully", Toast.LENGTH_SHORT).show()
+                            }
+                            .addOnFailureListener { e ->
+                                Log.w("Delete Failure", "Error deleting document", e)
+                                Toast.makeText(this, "Error deleting volunteer", Toast.LENGTH_SHORT).show()
+                            }
+                    } else {
+                        // User is not the creator, restrict access
+                        Log.w("volunteerList", "Unauthorized delete attempt")
+                        Toast.makeText(this, "Unauthorized access", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Log.w("volunteerList", "No such volunteer")
+                    Toast.makeText(this, "Volunteer does not exist", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.w("volunteerList", "Error checking volunteer ownership", e)
+                Toast.makeText(this, "Error checking volunteer ownership", Toast.LENGTH_SHORT).show()
+            }
     }
 }

@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EditEvent">
+    tools:context=".EditVolunteer">
 
     <TextView
-        android:id="@+id/tv_edit_event_heading"
+        android:id="@+id/tv_edit_volunteer_heading"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Edit Event"
+        android:text="Edit Volunteer"
         android:textSize="30sp"
         android:textStyle="bold"
         android:layout_marginTop="24dp"
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_event_name"
+        android:id="@+id/til_volunteer_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -28,18 +28,18 @@
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_edit_event_heading">
+        app:layout_constraintTop_toBottomOf="@id/tv_edit_volunteer_heading">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_event_name"
+            android:id="@+id/editVolunteerName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Event Name"
+            android:hint="Name"
             android:padding="16dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_event_organizer"
+        android:id="@+id/til_volunteer_email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -47,18 +47,18 @@
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/til_event_name">
+        app:layout_constraintTop_toBottomOf="@id/til_volunteer_name">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_event_organizer"
+            android:id="@+id/editVolunteerEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Event Organizer"
+            android:hint="Email"
             android:padding="16dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_event_location"
+        android:id="@+id/til_volunteer_phone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -66,18 +66,18 @@
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/til_event_organizer">
+        app:layout_constraintTop_toBottomOf="@id/til_volunteer_email">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_event_location"
+            android:id="@+id/editVolunteerPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Event Location"
+            android:hint="Phone"
             android:padding="16dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_event_description"
+        android:id="@+id/til_volunteer_available_date"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -85,18 +85,20 @@
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/til_event_location">
+        app:layout_constraintTop_toBottomOf="@id/til_volunteer_phone">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_event_description"
+            android:id="@+id/editAvailableDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Event Description"
-            android:padding="16dp" />
+            android:hint="Available Date"
+            android:padding="16dp"
+            android:focusable="false"
+            android:clickable="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
-        android:id="@+id/ll_event_times"
+        android:id="@+id/ll_volunteer_times"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -105,7 +107,7 @@
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/til_event_description">
+        app:layout_constraintTop_toBottomOf="@id/til_volunteer_available_date">
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="0dp"
@@ -114,10 +116,10 @@
             android:layout_weight="1">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_event_start"
+                android:id="@+id/editAvailableFrom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Event Start Time"
+                android:hint="Available From"
                 android:padding="16dp"
                 android:focusable="false"
                 android:clickable="true" />
@@ -129,47 +131,27 @@
             android:layout_weight="1">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_event_end"
+                android:id="@+id/editAvailableTill"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Event End Time"
+                android:hint="Available Till"
                 android:padding="16dp"
                 android:focusable="false"
                 android:clickable="true" />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_event_date"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ll_event_times">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_event_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Event Date"
-            android:padding="16dp"
-            android:focusable="false"
-            android:clickable="true" />
-    </com.google.android.material.textfield.TextInputLayout>
-
     <Button
-        android:id="@+id/btn_save_event"
+        android:id="@+id/updateButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Save Event"
+        android:text="Update"
         android:textColor="@android:color/white"
         android:layout_marginTop="24dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/til_event_date" />
+        app:layout_constraintTop_toBottomOf="@id/ll_volunteer_times" />
 </androidx.constraintlayout.widget.ConstraintLayout>
