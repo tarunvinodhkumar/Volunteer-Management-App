@@ -147,6 +147,7 @@ class volunteerList : AppCompatActivity() {
         volunteerAdapter.notifyDataSetChanged()
     }
 
+
     private fun sortByDate() {
         volunteerArrayList.sortBy { it.volunteer_available_date }
         volunteerAdapter.notifyDataSetChanged()
