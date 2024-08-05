@@ -14,7 +14,8 @@ import com.bumptech.glide.Glide
 class EventAdapter(
     private val eventList: ArrayList<Event>,
     private val onEdit: (Event) -> Unit,
-    private val onDelete: (Event) -> Unit
+    private val onDelete: (Event) -> Unit,
+    private val onEventClick:(Event) -> Unit
 ) : RecyclerView.Adapter<EventAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -35,6 +36,11 @@ class EventAdapter(
         Glide.with(holder.itemView.context)
             .load(event.image_url)
             .into(holder.eventImage)
+
+        // Handle item clicks
+        holder.itemView.setOnClickListener {
+            onEventClick(event)
+        }
 
         holder.buttonMenu.setOnClickListener {
             val popup = PopupMenu(holder.itemView.context, holder.buttonMenu)

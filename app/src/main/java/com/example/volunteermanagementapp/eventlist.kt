@@ -41,7 +41,9 @@ class eventlist : AppCompatActivity() {
         recyclerView.setHasFixedSize(true)
 
         eventArrayList = arrayListOf()
-        eventAdapter = EventAdapter(eventArrayList, ::onEditEvent, ::onDeleteEvent)
+
+        // Initialize EventAdapter with the onEventClick lambda
+        eventAdapter = EventAdapter(eventArrayList, ::onEditEvent, ::onDeleteEvent, ::onEventClick)
         recyclerView.adapter = eventAdapter
 
         // Set up the toggle button group
@@ -190,5 +192,12 @@ class eventlist : AppCompatActivity() {
                 Log.w("eventlist", "Error checking event ownership", e)
                 Toast.makeText(this, "Error checking event ownership", Toast.LENGTH_SHORT).show()
             }
+    }
+
+    private fun onEventClick(event: Event) {
+        val intent = Intent(this, EventDetailsActivity::class.java).apply {
+            putExtra("event_id", event.id)
+        }
+        startActivity(intent)
     }
 }

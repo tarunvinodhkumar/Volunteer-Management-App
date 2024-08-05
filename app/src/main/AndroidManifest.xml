@@ -48,6 +48,12 @@
             android:name=".EditEvent"
             android:theme="@style/AppTheme"
             android:exported="true"/>
+
+        <activity
+            android:name=".EventDetailsActivity"
+            android:theme="@style/AppTheme"
+            android:exported="true" />
+
     </application>
 
 </manifest>

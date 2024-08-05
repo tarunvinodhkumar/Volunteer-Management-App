@@ -16,7 +16,6 @@ import android.widget.TimePicker
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -39,7 +38,8 @@ class CreateEvent : AppCompatActivity() {
     private lateinit var addPhotosButton: Button
 
     private val PICK_PHOTO_REQUEST = 1
-    private var photoUrl: String? = null
+    private val photoUris = mutableListOf<Uri>()
+    private val photoUrls = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,6 +82,7 @@ class CreateEvent : AppCompatActivity() {
         // Set up photo upload button
         addPhotosButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true) // Allow multiple photo selection
             startActivityForResult(intent, PICK_PHOTO_REQUEST)
         }
     }
@@ -118,7 +119,7 @@ class CreateEvent : AppCompatActivity() {
                 "event_end" to eventEnd,
                 "event_date" to eventDate,
                 "created_by" to userId, // Store the creator's user ID
-                "image_url" to photoUrl // Store the photo URL if available
+                "image_urls" to photoUrls // Store the list of photo URLs
             )
 
             db.collection("event_details")
@@ -196,8 +197,19 @@ class CreateEvent : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_PHOTO_REQUEST && resultCode == RESULT_OK) {
-            val imageUri: Uri? = data?.data
-            imageUri?.let { uploadPhotoToFirebase(it) }
+            val clipData = data?.clipData
+            if (clipData != null) {
+                // Handle multiple photos
+                for (i in 0 until clipData.itemCount) {
+                    val imageUri: Uri = clipData.getItemAt(i).uri
+                    photoUris.add(imageUri)
+                    uploadPhotoToFirebase(imageUri)
+                }
+            } else {
+                // Handle single photo
+                val imageUri: Uri? = data?.data
+                imageUri?.let { uploadPhotoToFirebase(it) }
+            }
         }
     }
 
@@ -207,8 +219,7 @@ class CreateEvent : AppCompatActivity() {
 
         uploadTask.addOnSuccessListener {
             storageRef.downloadUrl.addOnSuccessListener { uri ->
-                // Handle the photo URL (e.g., save it in Firestore or show a success message)
-                photoUrl = uri.toString() // Save the photo URL
+                photoUrls.add(uri.toString()) // Add the photo URL to the list
                 Toast.makeText(this, "Photo uploaded successfully", Toast.LENGTH_SHORT).show()
             }
         }.addOnFailureListener { e ->
