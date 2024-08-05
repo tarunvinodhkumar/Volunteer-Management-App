@@ -1,6 +1,6 @@
 package com.example.volunteermanagementapp
-
 import android.app.AlertDialog
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,11 +10,12 @@ import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+ import com.example.volunteermanagementapp.Event
 
-class EventAdapter(
-    private val eventList: ArrayList<Event>,
-    private val onEdit: (Event) -> Unit,
-    private val onDelete: (Event) -> Unit
+ class EventAdapter(
+     private val eventList: ArrayList<Event>,
+     private val onEdit: (Event) -> Unit,
+     private val onDelete: (Event) -> Unit
 ) : RecyclerView.Adapter<EventAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -35,6 +36,13 @@ class EventAdapter(
         Glide.with(holder.itemView.context)
             .load(event.image_url)
             .into(holder.eventImage)
+
+        // Handle item click
+        holder.itemView.setOnClickListener {
+            val intent = Intent(holder.itemView.context, EventDetailsActivity::class.java)
+            intent.putExtra("event_id", event.id)  // Assuming `Event` has an `id` property
+            holder.itemView.context.startActivity(intent)
+        }
 
         holder.buttonMenu.setOnClickListener {
             val popup = PopupMenu(holder.itemView.context, holder.buttonMenu)

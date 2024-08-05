@@ -10,6 +10,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -145,6 +146,47 @@ class volunteerList : AppCompatActivity() {
     }
 
     private fun onDeleteVolunteer(volunteer: Volunteer) {
-        // Handle delete action
+        val currentUserId = auth.currentUser?.uid
+
+        if (currentUserId == null) {
+            Log.w("Delete Volunteer", "Current user ID is null")
+            Toast.makeText(this, "User not authenticated", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        db.collection("volunteer_details").document(volunteer.id).get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    val createdBy = document.getString("created_by")
+                    Log.d("Delete Volunteer", "Created by: $createdBy, Current user: $currentUserId")
+
+                    if (createdBy == currentUserId) {
+                        // User is the creator, allow deletion
+                        db.collection("volunteer_details").document(volunteer.id)
+                            .delete()
+                            .addOnSuccessListener {
+                                // Remove from the local list and update the adapter
+                                volunteerArrayList.remove(volunteer)
+                                volunteerAdapter.notifyDataSetChanged()
+                                Toast.makeText(this, "Volunteer deleted successfully", Toast.LENGTH_SHORT).show()
+                            }
+                            .addOnFailureListener { e ->
+                                Log.w("Delete Volunteer", "Error deleting document", e)
+                                Toast.makeText(this, "Error deleting volunteer", Toast.LENGTH_SHORT).show()
+                            }
+                    } else {
+                        // User is not the creator, restrict access
+                        Log.w("Delete Volunteer", "Unauthorized delete attempt by user $currentUserId for volunteer created by $createdBy")
+                        Toast.makeText(this, "Unauthorized access", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Log.w("Delete Volunteer", "No such volunteer document")
+                    Toast.makeText(this, "Volunteer does not exist", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.w("Delete Volunteer", "Error checking volunteer ownership", e)
+                Toast.makeText(this, "Error checking volunteer ownership", Toast.LENGTH_SHORT).show()
+            }
     }
 }
